@@ -56,7 +56,7 @@ export const Engine = (props) => {
     }
   };
 
-  const update = (td) => {
+  const update = (dt) => {
     events.update.forEach((event) => typeof event === 'function' && event());
 
     sprites.forEach((sprite) => {

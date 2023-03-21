@@ -1,4 +1,4 @@
-export const timer = () => {
+export const Timer = () => {
   let t = Date.now(),
     m = 0;
 

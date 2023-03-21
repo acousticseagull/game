@@ -1,10 +1,13 @@
-import { timer } from './timer.js';
+import { Timer } from './timer.js';
 
-const Game = (props) => {
-  let dt;
-  let time = timer();
-
+export const Engine = (props) => {
+  let td;
+  const timer = Timer();
   const node = document.createElement('div');
+
+  Object.assign(document.body.style, {
+    margin: 0,
+  });
 
   Object.assign(node.style, {
     position: 'relative',
@@ -21,6 +24,18 @@ const Game = (props) => {
 
   const add = (name, props) => {
     if (name === 'sprite') {
+      const { src, color } = props;
+
+      props.node = document.createElement('div');
+
+      Object.assign(props.node.style, {
+        position: 'absolute',
+        boxSizing: 'border-box',
+        overflow: 'hidden',
+        backgroundColor: color || 'transparent',
+        backgroundImage: `url(${src})`,
+      });
+
       sprites.push({
         ...props,
       });
@@ -28,9 +43,13 @@ const Game = (props) => {
   };
 
   const update = () => {
+    events.update.forEach((event) => typeof event === 'function' && event());
+
     sprites.forEach((sprite) => {
-      if (events.update)
-        events.update.forEach((target) => target[sprite.name](sprite));
+      (events.update || []).forEach((event) => {
+        const cb = event[sprite.name];
+        cb && cb(sprite);
+      });
     });
   };
 
@@ -39,7 +58,9 @@ const Game = (props) => {
       const { pos, size } = sprite;
 
       Object.assign(sprite.node.style, {
-        transform: `translate(${pos.x}px, ${pos.y}px)`,
+        transform: `translate(${pos.x + size.width / 2}px, ${
+          pos.y + size.height / 2
+        }px)`,
         width: `${size.width}px`,
         height: `${size.height}px`,
       });
@@ -47,42 +68,33 @@ const Game = (props) => {
   };
 
   const loop = () => {
-    dt = time.delta() / 1000;
-
-    update(dt);
+    update();
     draw();
 
     window.requestAnimationFrame(loop);
   };
 
-  const on = (name, event, cb) => {
-    (events[event] ??= []).push({
-      [name]: cb,
-    });
+  const on = ({ target, event }, cb) => {
+    (events[event] ??= []).push(
+      target
+        ? {
+            [target]: cb,
+          }
+        : cb
+    );
   };
 
   return {
     add,
     on,
 
+    size: props.size,
+
     start: () => {
       // load assets
       // once complete ...
 
       sprites.forEach((sprite) => {
-        const { pos, size, color } = sprite;
-
-        sprite.node = document.createElement('div');
-
-        Object.assign(sprite.node.style, {
-          position: 'absolute',
-          overflow: 'hidden',
-          transform: `translate(${pos.x}px, ${pos.y}px)`,
-          width: `${size.width}px`,
-          height: `${size.height}px`,
-          backgroundColor: color,
-        });
-
         node.append(sprite.node);
       });
 
@@ -90,34 +102,3 @@ const Game = (props) => {
     },
   };
 };
-
-const game = Game({
-  size: {
-    width: 600,
-    height: 800,
-  },
-});
-
-game.on('player', 'update', (sprite) => {
-  const { pos, vel, size } = sprite;
-
-  pos.x += vel.x;
-});
-
-game.add('sprite', {
-  name: 'player',
-  color: '#000000',
-  size: {
-    width: 20,
-    height: 20,
-  },
-  pos: {
-    x: 0,
-    y: 0,
-  },
-  vel: {
-    x: 3,
-  },
-});
-
-game.start();

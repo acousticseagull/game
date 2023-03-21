@@ -42,6 +42,11 @@ export const Engine = (props) => {
 
       sprites.push({
         ...props,
+        pos: {
+          x: 0,
+          y: 0,
+          ...props.pos,
+        },
         vel: {
           x: 0,
           y: 0,

@@ -1,4 +1,9 @@
+import { timer } from './timer.js';
+
 const Game = (props) => {
+  let dt;
+  let time = timer();
+
   const node = document.createElement('div');
 
   Object.assign(node.style, {
@@ -42,7 +47,9 @@ const Game = (props) => {
   };
 
   const loop = () => {
-    update();
+    dt = time.delta() / 1000;
+
+    update(dt);
     draw();
 
     window.requestAnimationFrame(loop);

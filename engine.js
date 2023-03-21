@@ -1,8 +1,12 @@
 import { Timer } from './timer.js';
+import { Keyboard } from './keyboard.js';
 
 export const Engine = (props) => {
   let td;
   const timer = Timer();
+
+  const keyboard = Keyboard();
+
   const node = document.createElement('div');
 
   Object.assign(document.body.style, {
@@ -38,11 +42,16 @@ export const Engine = (props) => {
 
       sprites.push({
         ...props,
+        vel: {
+          x: 0,
+          y: 0,
+          ...props.vel,
+        },
       });
     }
   };
 
-  const update = () => {
+  const update = (td) => {
     events.update.forEach((event) => typeof event === 'function' && event());
 
     sprites.forEach((sprite) => {
@@ -50,6 +59,9 @@ export const Engine = (props) => {
         const cb = event[sprite.name];
         cb && cb(sprite);
       });
+
+      sprite.pos.x += sprite.vel.x;
+      sprite.pos.y += sprite.vel.y;
     });
   };
 
@@ -58,8 +70,8 @@ export const Engine = (props) => {
       const { pos, size } = sprite;
 
       Object.assign(sprite.node.style, {
-        transform: `translate(${pos.x + size.width / 2}px, ${
-          pos.y + size.height / 2
+        transform: `translate(${pos.x - size.width / 2}px, ${
+          pos.y - size.height / 2
         }px)`,
         width: `${size.width}px`,
         height: `${size.height}px`,
@@ -68,8 +80,12 @@ export const Engine = (props) => {
   };
 
   const loop = () => {
-    update();
+    td = timer.delta() / 1000;
+
+    update(td);
     draw();
+
+    keyboard.clearPressedKeys();
 
     window.requestAnimationFrame(loop);
   };
@@ -87,6 +103,9 @@ export const Engine = (props) => {
   return {
     add,
     on,
+
+    Timer,
+    keyboard,
 
     size: props.size,
 

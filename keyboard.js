@@ -1,4 +1,4 @@
-export function keyboard() {
+export function Keyboard() {
   let keyIsDown = {};
   let keyIsPressed = {};
 

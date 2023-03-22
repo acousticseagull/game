@@ -1,5 +1,6 @@
 import { Timer } from './timer.js';
 import { Keyboard } from './keyboard.js';
+import { Animate } from './animate.js';
 
 export const Engine = (props) => {
   let td;
@@ -16,6 +17,8 @@ export const Engine = (props) => {
   Object.assign(node.style, {
     position: 'relative',
     overflow: 'hidden',
+    imageRendering: 'pixelated',
+    transform: `scale(${props.scale})`,
     width: `${props.size.width}px`,
     height: `${props.size.height}px`,
     backgroundColor: props.backgroundColor,
@@ -40,7 +43,8 @@ export const Engine = (props) => {
         backgroundImage: `url(${src})`,
       });
 
-      sprites.push({
+      const sprite = {
+        currentAnimation: props.animations && props.animations[Object.keys(props.animations)[0]],
         ...props,
         pos: {
           x: 0,
@@ -52,7 +56,11 @@ export const Engine = (props) => {
           y: 0,
           ...props.vel,
         },
-      });
+      };
+
+      sprites.push(sprite);
+
+      return sprite;
     }
   };
 
@@ -61,7 +69,7 @@ export const Engine = (props) => {
 
     sprites.forEach((sprite) => {
       (events.update || []).forEach((event) => {
-        const cb = event[sprite.name];
+        const cb = event[sprite.tag];
         cb && cb(sprite);
       });
 
@@ -72,7 +80,13 @@ export const Engine = (props) => {
 
   const draw = () => {
     sprites.forEach((sprite) => {
-      const { pos, size } = sprite;
+      const { pos, size, currentAnimation } = sprite;
+
+      if (currentAnimation.frame < currentAnimation.sequence.length - 1) {
+        currentAnimation.frame++;
+      } else {
+        if (currentAnimation.repeat) currentAnimation.frame = 0;
+      }
 
       Object.assign(sprite.node.style, {
         transform: `translate(${pos.x - size.width / 2}px, ${
@@ -80,7 +94,13 @@ export const Engine = (props) => {
         }px)`,
         width: `${size.width}px`,
         height: `${size.height}px`,
+        backgroundPosition: `${-(
+        currentAnimation.sequence[currentAnimation.frame] *
+          size.width
+        )}px 0px`
       });
+
+
     });
   };
 
@@ -111,6 +131,7 @@ export const Engine = (props) => {
 
     Timer,
     keyboard,
+    Animate,
 
     size: props.size,
 

@@ -5,6 +5,7 @@ const game = Engine({
     width: 600,
     height: 800,
   },
+  scale: 2,
   backgroundColor: '#000000',
 });
 
@@ -33,10 +34,9 @@ game.on({ target: 'player', event: 'update' }, (sprite) => {
   }
 });
 
-game.add('sprite', {
-  name: 'player',
-  color: '#ffffff',
-  //src: 'assets/player.png',
+const player = game.add('sprite', {
+  tag: 'player',
+  src: 'https://stephenpruitt.com/rayborn/assets/player.png',
   size: {
     width: 21,
     height: 26,
@@ -45,57 +45,63 @@ game.add('sprite', {
     x: game.size.width / 2,
     y: game.size.height - 100,
   },
-});
-
-game.add('sprite', {
-  name: 'fighter',
-  color: '#ffffff',
-  //src: 'assets/fighter.png',
-  size: {
-    width: 21,
-    height: 26,
-  },
-  pos: {
-    x: game.size.width / 2,
-    y: 100,
-  },
-  vel: {
-    y: 0.5,
+  animations: {
+    idle: {
+      sequence: [0, 1, 2],
+      frame: 0,
+      //repeat: true
+    },
   },
 });
 
-game.add('sprite', {
-  name: 'fighter',
-  color: '#ffffff',
-  //src: 'assets/fighter.png',
-  size: {
-    width: 21,
-    height: 26,
-  },
-  pos: {
-    x: 100,
-    y: 100,
-  },
-  vel: {
-    y: 0.5,
-  },
-});
+console.log(player);
 
-game.add('sprite', {
-  name: 'fighter',
-  color: '#ffffff',
-  //src: 'assets/fighter.png',
-  size: {
-    width: 21,
-    height: 26,
-  },
-  pos: {
-    x: game.size.width - 100,
-    y: 100,
-  },
-  vel: {
-    y: 0.5,
-  },
-});
+// game.add('sprite', {
+//   tag: 'fighter',
+//   src: 'https://stephenpruitt.com/rayborn/assets/fighter.png',
+//   size: {
+//     width: 21,
+//     height: 26,
+//   },
+//   pos: {
+//     x: game.size.width / 2,
+//     y: 100,
+//   },
+//   vel: {
+//     y: 0.5,
+//   },
+// });
+
+// game.add('sprite', {
+//   tag: 'fighter',
+//   src: 'https://stephenpruitt.com/rayborn/assets/fighter.png',
+//   size: {
+//     width: 21,
+//     height: 26,
+//   },
+//   pos: {
+//     x: 100,
+//     y: 100,
+//   },
+//   vel: {
+//     y: 0.5,
+//   },
+// });
+
+// game.add('sprite', {
+//   tag: 'fighter',
+//   src: 'https://stephenpruitt.com/rayborn/assets/fighter.png',
+//   size: {
+//     width: 21,
+//     height: 26,
+//   },
+//   pos: {
+//     x: game.size.width - 100,
+//     y: 100,
+//   },
+//   vel: {
+//     y: 0.5,
+//   },
+// });
 
 game.start();

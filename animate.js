@@ -1,7 +1,7 @@
-import { timer } from './timer.js';
+import { Timer } from './timer.js';
 
-export function animation(animations = {}) {
-  const t = timer();
+export function Animate(animations = {}) {
+  const t = Timer();
 
   animations = Object.keys(animations).reduce((a, c) => {
     const { delay, sequence, repeat } = animations[c];
@@ -39,7 +39,8 @@ export function animation(animations = {}) {
     }
 
     this.node.style.backgroundPosition = `${-(
-      this.currentAnimation.sequence[this.currentAnimation.frame] * this.width
+      this.currentAnimation.sequence[this.currentAnimation.frame] *
+      this.size.width
     )}px 0px`;
   }
 

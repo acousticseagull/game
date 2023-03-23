@@ -14,6 +14,8 @@ game.on({ event: 'update' }, () => {});
 game.on({ target: 'player', event: 'update' }, (sprite) => {
   const { pos, vel, size } = sprite;
 
+  sprite.animation.play('idle');
+
   vel.x = 0;
   vel.y = 0;
 
@@ -26,10 +28,12 @@ game.on({ target: 'player', event: 'update' }, (sprite) => {
   }
 
   if (game.keyboard.isDown('ArrowLeft')) {
+    sprite.animation.play('left');
     vel.x = -1;
   }
 
   if (game.keyboard.isDown('ArrowRight')) {
+    sprite.animation.play('right');
     vel.x = 1;
   }
 });
@@ -47,9 +51,22 @@ const player = game.add('sprite', {
   },
   animations: {
     idle: {
-      sequence: [0, 1, 2],
+      sequence: [0],
       frame: 0,
-      //repeat: true
+      delay: 1,
+      repeat: false,
+    },
+    left: {
+      sequence: [1],
+      frame: 0,
+      delay: 0.1,
+      repeat: false,
+    },
+    right: {
+      sequence: [2],
+      frame: 0,
+      delay: 0.1,
+      repeat: false,
     },
   },
 });

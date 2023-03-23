@@ -1,6 +1,6 @@
 import { Timer } from './timer.js';
 import { Keyboard } from './keyboard.js';
-import { Animate } from './animate.js';
+//import { Animate } from './animate.js';
 
 export const Engine = (props) => {
   let td;
@@ -44,7 +44,6 @@ export const Engine = (props) => {
       });
 
       const sprite = {
-        currentAnimation: props.animations && props.animations[Object.keys(props.animations)[0]],
         ...props,
         pos: {
           x: 0,
@@ -55,6 +54,21 @@ export const Engine = (props) => {
           x: 0,
           y: 0,
           ...props.vel,
+        },
+        animation: {
+          current: props.animations
+            ? props.animations[Object.keys(props.animations)[0]]
+            : {
+                sequence: [0],
+                frame: 0,
+                delay: 1,
+                repeat: false,
+              },
+
+          play: function (name) {
+            this.current = sprite.animations[name];
+          },
+          timer: Timer(),
         },
       };
 
@@ -68,25 +82,32 @@ export const Engine = (props) => {
     events.update.forEach((event) => typeof event === 'function' && event());
 
     sprites.forEach((sprite) => {
+      const { pos, vel, animation } = sprite;
+
       (events.update || []).forEach((event) => {
         const cb = event[sprite.tag];
         cb && cb(sprite);
       });
 
-      sprite.pos.x += sprite.vel.x;
-      sprite.pos.y += sprite.vel.y;
+      // animate
+      if (animation.timer.delta() >= animation.current.delay * 1000) {
+        if (animation.current.frame < animation.current.sequence.length - 1) {
+          animation.current.frame++;
+        } else {
+          if (animation.current.repeat) animation.current.frame = 0;
+        }
+
+        animation.timer.reset();
+      }
+
+      pos.x += vel.x;
+      pos.y += vel.y;
     });
   };
 
   const draw = () => {
     sprites.forEach((sprite) => {
-      const { pos, size, currentAnimation } = sprite;
-
-      if (currentAnimation.frame < currentAnimation.sequence.length - 1) {
-        currentAnimation.frame++;
-      } else {
-        if (currentAnimation.repeat) currentAnimation.frame = 0;
-      }
+      const { pos, size, animation } = sprite;
 
       Object.assign(sprite.node.style, {
         transform: `translate(${pos.x - size.width / 2}px, ${
@@ -95,12 +116,9 @@ export const Engine = (props) => {
         width: `${size.width}px`,
         height: `${size.height}px`,
         backgroundPosition: `${-(
-        currentAnimation.sequence[currentAnimation.frame] *
-          size.width
-        )}px 0px`
+          animation.current.sequence[animation.current.frame] * size.width
+        )}px 0px`,
       });
-
-
     });
   };
 
@@ -131,7 +149,6 @@ export const Engine = (props) => {
 
     Timer,
     keyboard,
-    Animate,
 
     size: props.size,
 

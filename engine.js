@@ -81,7 +81,7 @@ export const Engine = (props) => {
     sprites.forEach((sprite) => {
       const { pos, vel, animation } = sprite;
 
-      trigger('update', sprite.tags, sprite);
+      trigger('update', sprite);
 
       // animate
       if (animation.timer.delta() >= animation.current.delay * 1000) {
@@ -98,7 +98,7 @@ export const Engine = (props) => {
       pos.y += vel.y * dt;
     });
 
-    //trigger('update');
+    trigger('update');
   };
 
   const draw = () => {
@@ -142,15 +142,13 @@ export const Engine = (props) => {
     );
   };
 
-  const trigger = (event, tags, sprite) => {
-    if (!events[event]) return;
-
+  const trigger = (event, sprite) => {
     events[event].forEach((event) => {
-      if ((tags || []).includes(event.tag)) {
+      if ((sprite?.tags || []).includes(event.tag)) {
         event.action(sprite);
       }
 
-      //if (!event.tag) event.action && event.action();
+      if (!event.tag) event?.action();
     });
   };
 

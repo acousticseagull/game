@@ -9,7 +9,8 @@ const game = Engine({
   backgroundColor: '#000000',
 });
 
-//game.on('update', () => {});
+game.on('update', () => {
+});
 
 game.on('update', 'player', (sprite) => {
   const { pos, vel, size } = sprite;

@@ -2,14 +2,15 @@ import { Engine } from './engine.js';
 
 const game = Engine({
   size: {
-    width: 600,
-    height: 800,
+    width: 400,
+    height: 500,
   },
-  scale: 2,
+  scale: 1,
   backgroundColor: '#000000',
 });
 
-game.on('update', () => {
+game.on('add', 'player', (sprite) => {
+  console.log({ sprite });
 });
 
 game.on('update', 'player', (sprite) => {
@@ -37,6 +38,10 @@ game.on('update', 'player', (sprite) => {
     sprite.animation.play('right');
     vel.x = 100;
   }
+});
+
+game.on('collision', 'player', (sprite, other) => {
+  sprite.destroy();
 });
 
 const player = game.add('sprite', {
@@ -72,23 +77,21 @@ const player = game.add('sprite', {
   },
 });
 
-console.log(player);
-
-// game.add('sprite', {
-//   tag: 'fighter',
-//   src: 'https://stephenpruitt.com/rayborn/assets/fighter.png',
-//   size: {
-//     width: 21,
-//     height: 26,
-//   },
-//   pos: {
-//     x: game.size.width / 2,
-//     y: 100,
-//   },
-//   vel: {
-//     y: 0.5,
-//   },
-// });
+game.add('sprite', {
+  tags: ['fighter', 'enemy'],
+  src: 'https://stephenpruitt.com/rayborn/assets/fighter.png',
+  size: {
+    width: 21,
+    height: 26,
+  },
+  pos: {
+    x: game.size.width / 2,
+    y: 100,
+  },
+  vel: {
+    y: 50,
+  },
+});
 
 // game.add('sprite', {
 //   tag: 'fighter',

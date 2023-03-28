@@ -6,13 +6,13 @@ export const Engine = (props) => {
 
   const keyboard = Keyboard();
 
-  const node = document.createElement('div');
+  const viewport = document.createElement('div');
 
   Object.assign(document.body.style, {
     margin: 0,
   });
 
-  Object.assign(node.style, {
+  Object.assign(viewport.style, {
     position: 'relative',
     overflow: 'hidden',
     imageRendering: 'pixelated',
@@ -22,10 +22,10 @@ export const Engine = (props) => {
     backgroundColor: props.backgroundColor,
   });
 
-  document.body.append(node);
+  document.body.append(viewport);
 
   const events = {};
-  const sprites = [];
+  let sprites = [];
 
   const add = (name, props) => {
     if (name === 'sprite') {
@@ -69,6 +69,10 @@ export const Engine = (props) => {
           },
           timer: Timer(),
         },
+        destroy: function () {
+          this.destroyed = true;
+          this.node.remove();
+        },
       };
 
       sprites.push(sprite);
@@ -78,6 +82,8 @@ export const Engine = (props) => {
   };
 
   const update = (dt) => {
+    sprites = sprites.filter((sprite) => !sprite.destroyed);
+
     sprites.forEach((sprite) => {
       const { pos, vel, animation } = sprite;
 
@@ -96,6 +102,19 @@ export const Engine = (props) => {
 
       pos.x += vel.x * dt;
       pos.y += vel.y * dt;
+
+      sprites.forEach((other) => {
+        if (sprite === other) return;
+
+        if (
+          sprite.pos.x < other.pos.x + other.size.width &&
+          sprite.pos.x + sprite.size.width > other.pos.x &&
+          sprite.pos.y < other.pos.y + other.size.height &&
+          sprite.size.height + sprite.pos.y > other.pos.y
+        ) {
+          trigger('collision', sprite, other);
+        }
+      });
     });
 
     trigger('update');
@@ -109,6 +128,7 @@ export const Engine = (props) => {
         transform: `translate(${pos.x - size.width / 2}px, ${
           pos.y - size.height / 2
         }px)`,
+        transformOrigin: 'center',
         width: `${size.width}px`,
         height: `${size.height}px`,
         backgroundPosition: `${-(
@@ -142,10 +162,10 @@ export const Engine = (props) => {
     );
   };
 
-  const trigger = (event, sprite) => {
-    events[event].forEach((event) => {
-      if ((sprite?.tags || []).includes(event.tag)) {
-        event.action(sprite);
+  const trigger = (event, ...args) => {
+    (events[event] || []).forEach((event) => {
+      if ((args[0]?.tags || []).includes(event.tag)) {
+        event.action(...args);
       }
 
       if (!event.tag) event?.action();
@@ -168,7 +188,9 @@ export const Engine = (props) => {
       // once complete ...
 
       sprites.forEach((sprite) => {
-        node.append(sprite.node);
+        viewport.append(sprite.node);
+
+        trigger('add', sprite);
       });
 
       window.requestAnimationFrame(loop);

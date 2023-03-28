@@ -1,124 +1,177 @@
-import { Engine } from './engine.js';
+import { Timer } from './timer.js';
+import { Keyboard } from './keyboard.js';
 
-const game = Engine({
-  size: {
-    width: 600,
-    height: 800,
-  },
-  scale: 2,
-  backgroundColor: '#000000',
-});
+export const Engine = (props) => {
+  const timer = Timer();
 
-game.on({ event: 'update' }, () => {});
+  const keyboard = Keyboard();
 
-game.on({ target: 'player', event: 'update' }, (sprite) => {
-  const { pos, vel, size } = sprite;
+  const node = document.createElement('div');
 
-  sprite.animation.play('idle');
+  Object.assign(document.body.style, {
+    margin: 0,
+  });
 
-  vel.x = 0;
-  vel.y = 0;
+  Object.assign(node.style, {
+    position: 'relative',
+    overflow: 'hidden',
+    imageRendering: 'pixelated',
+    transform: `scale(${props.scale})`,
+    width: `${props.size.width}px`,
+    height: `${props.size.height}px`,
+    backgroundColor: props.backgroundColor,
+  });
 
-  if (game.keyboard.isDown('ArrowUp')) {
-    vel.y = -1;
-  }
+  document.body.append(node);
 
-  if (game.keyboard.isDown('ArrowDown')) {
-    vel.y = 1;
-  }
+  const events = {};
+  const sprites = [];
 
-  if (game.keyboard.isDown('ArrowLeft')) {
-    sprite.animation.play('left');
-    vel.x = -1;
-  }
+  const add = (name, props) => {
+    if (name === 'sprite') {
+      const { src, color } = props;
 
-  if (game.keyboard.isDown('ArrowRight')) {
-    sprite.animation.play('right');
-    vel.x = 1;
-  }
-});
+      props.node = document.createElement('div');
 
-const player = game.add('sprite', {
-  tag: 'player',
-  src: 'https://stephenpruitt.com/rayborn/assets/player.png',
-  size: {
-    width: 21,
-    height: 26,
-  },
-  pos: {
-    x: game.size.width / 2,
-    y: game.size.height - 100,
-  },
-  animations: {
-    idle: {
-      sequence: [0],
-      frame: 0,
-      delay: 1,
-      repeat: false,
+      Object.assign(props.node.style, {
+        position: 'absolute',
+        boxSizing: 'border-box',
+        overflow: 'hidden',
+        backgroundColor: color || 'transparent',
+        backgroundImage: `url(${src})`,
+        backgroundRepeat: 'no-repeat',
+      });
+
+      const sprite = {
+        ...props,
+        pos: {
+          x: 0,
+          y: 0,
+          ...props.pos,
+        },
+        vel: {
+          x: 0,
+          y: 0,
+          ...props.vel,
+        },
+        animation: {
+          current: props.animations
+            ? props.animations[Object.keys(props.animations)[0]]
+            : {
+                sequence: [0],
+                frame: 0,
+                delay: 1,
+                repeat: false,
+              },
+
+          play: function (name) {
+            this.current = sprite.animations[name];
+          },
+          timer: Timer(),
+        },
+      };
+
+      sprites.push(sprite);
+
+      return sprite;
+    }
+  };
+
+  const update = (dt) => {
+    sprites.forEach((sprite) => {
+      const { pos, vel, animation } = sprite;
+
+      trigger('update', sprite.tags, sprite);
+
+      // animate
+      if (animation.timer.delta() >= animation.current.delay * 1000) {
+        if (animation.current.frame < animation.current.sequence.length - 1) {
+          animation.current.frame++;
+        } else {
+          if (animation.current.repeat) animation.current.frame = 0;
+        }
+
+        animation.timer.reset();
+      }
+
+      pos.x += vel.x * dt;
+      pos.y += vel.y * dt;
+    });
+
+    trigger('update');
+  };
+
+  const draw = () => {
+    sprites.forEach((sprite) => {
+      const { pos, size, animation } = sprite;
+
+      Object.assign(sprite.node.style, {
+        transform: `translate(${pos.x - size.width / 2}px, ${
+          pos.y - size.height / 2
+        }px)`,
+        width: `${size.width}px`,
+        height: `${size.height}px`,
+        backgroundPosition: `${-(
+          animation.current.sequence[animation.current.frame] * size.width
+        )}px 0px`,
+      });
+    });
+  };
+
+  const loop = () => {
+    update(timer.delta() / 1000);
+    draw();
+
+    keyboard.clearPressedKeys();
+
+    timer.reset();
+
+    window.requestAnimationFrame(loop);
+  };
+
+  const on = (event, tag, action) => {
+    (events[event] ??= []).push(
+      typeof tag === 'function'
+        ? {
+            action: tag,
+          }
+        : {
+            tag,
+            action,
+          }
+    );
+  };
+
+  const trigger = (event, tags, sprite) => {
+    if (!events[event]) return;
+
+    events[event].forEach((event) => {
+      if ((tags || []).includes(event.tag)) {
+        event.action(sprite);
+      }
+    });
+  };
+
+  return {
+    add,
+    on,
+
+    Timer,
+    keyboard,
+
+    size: props.size,
+
+    start: () => {
+      timer.reset();
+
+      // load assets
+      // once complete ...
+
+      sprites.forEach((sprite) => {
+        node.append(sprite.node);
+      });
+
+      window.requestAnimationFrame(loop);
     },
-    left: {
-      sequence: [1],
-      frame: 0,
-      delay: 0.1,
-      repeat: false,
-    },
-    right: {
-      sequence: [2],
-      frame: 0,
-      delay: 0.1,
-      repeat: false,
-    },
-  },
-});
-
-console.log(player);
-
-// game.add('sprite', {
-//   tag: 'fighter',
-//   src: 'https://stephenpruitt.com/rayborn/assets/fighter.png',
-//   size: {
-//     width: 21,
-//     height: 26,
-//   },
-//   pos: {
-//     x: game.size.width / 2,
-//     y: 100,
-//   },
-//   vel: {
-//     y: 0.5,
-//   },
-// });
-
-// game.add('sprite', {
-//   tag: 'fighter',
-//   src: 'https://stephenpruitt.com/rayborn/assets/fighter.png',
-//   size: {
-//     width: 21,
-//     height: 26,
-//   },
-//   pos: {
-//     x: 100,
-//     y: 100,
-//   },
-//   vel: {
-//     y: 0.5,
-//   },
-// });
-
-// game.add('sprite', {
-//   tag: 'fighter',
-//   src: 'https://stephenpruitt.com/rayborn/assets/fighter.png',
-//   size: {
-//     width: 21,
-//     height: 26,
-//   },
-//   pos: {
-//     x: game.size.width - 100,
-//     y: 100,
-//   },
-//   vel: {
-//     y: 0.5,
-//   },
-// });
-
-game.start();
+  };
+};

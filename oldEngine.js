@@ -1,8 +1,3 @@
-import { timer } from './timer.js';
-import { animation } from './animation.js';
-import { sprite } from './sprite.js';
-import { keyboard } from './keyboard.js';
-
 export default (opts = {}) => {
   let dt;
   let time = timer();

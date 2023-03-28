@@ -1,9 +1,7 @@
 import { Timer } from './timer.js';
 import { Keyboard } from './keyboard.js';
-//import { Animate } from './animate.js';
 
 export const Engine = (props) => {
-  let td;
   const timer = Timer();
 
   const keyboard = Keyboard();
@@ -41,6 +39,7 @@ export const Engine = (props) => {
         overflow: 'hidden',
         backgroundColor: color || 'transparent',
         backgroundImage: `url(${src})`,
+        backgroundRepeat: 'no-repeat',
       });
 
       const sprite = {
@@ -79,15 +78,10 @@ export const Engine = (props) => {
   };
 
   const update = (dt) => {
-    events.update.forEach((event) => typeof event === 'function' && event());
-
     sprites.forEach((sprite) => {
       const { pos, vel, animation } = sprite;
 
-      (events.update || []).forEach((event) => {
-        const cb = event[sprite.tag];
-        cb && cb(sprite);
-      });
+      trigger('update', sprite.tags, sprite);
 
       // animate
       if (animation.timer.delta() >= animation.current.delay * 1000) {
@@ -100,9 +94,11 @@ export const Engine = (props) => {
         animation.timer.reset();
       }
 
-      pos.x += vel.x;
-      pos.y += vel.y;
+      pos.x += vel.x * dt;
+      pos.y += vel.y * dt;
     });
+
+    trigger('update');
   };
 
   const draw = () => {
@@ -123,24 +119,39 @@ export const Engine = (props) => {
   };
 
   const loop = () => {
-    td = timer.delta() / 1000;
-
-    update(td);
+    update(timer.delta() / 1000);
     draw();
 
     keyboard.clearPressedKeys();
 
+    timer.reset();
+
     window.requestAnimationFrame(loop);
   };
 
-  const on = ({ target, event }, cb) => {
+  const on = (event, tag, action) => {
     (events[event] ??= []).push(
-      target
+      typeof tag === 'function'
         ? {
-            [target]: cb,
+            action: tag,
           }
-        : cb
+        : {
+            tag,
+            action,
+          }
     );
+  };
+
+  const trigger = (event, tags, sprite) => {
+    if (!events[event]) return;
+
+    events[event].forEach((event) => {
+      if ((tags || []).includes(event.tag)) {
+        event.action(sprite);
+      }
+
+      if (!tags) event.action && event.action();
+    });
   };
 
   return {
@@ -153,6 +164,8 @@ export const Engine = (props) => {
     size: props.size,
 
     start: () => {
+      timer.reset();
+
       // load assets
       // once complete ...
 

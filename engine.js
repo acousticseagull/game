@@ -2,6 +2,8 @@ import { Timer } from './timer.js';
 import { Keyboard } from './keyboard.js';
 
 export const Engine = (props) => {
+  const { size, scale, backgroundColor } = props;
+
   const timer = Timer();
 
   const keyboard = Keyboard();
@@ -16,10 +18,10 @@ export const Engine = (props) => {
     position: 'relative',
     overflow: 'hidden',
     imageRendering: 'pixelated',
-    transform: `scale(${props.scale})`,
-    width: `${props.size.width}px`,
-    height: `${props.size.height}px`,
-    backgroundColor: props.backgroundColor,
+    transform: `scale(${scale})`,
+    width: `${size.width}px`,
+    height: `${size.height}px`,
+    backgroundColor: backgroundColor,
   });
 
   document.body.append(viewport);
@@ -54,7 +56,7 @@ export const Engine = (props) => {
           y: 0,
           ...props.vel,
         },
-        animation: {
+        animate: {
           current: props.animations
             ? props.animations[Object.keys(props.animations)[0]]
             : {
@@ -70,7 +72,6 @@ export const Engine = (props) => {
           timer: Timer(),
         },
         destroy: function () {
-          this.destroyed = true;
           this.node.remove();
         },
       };
@@ -82,22 +83,24 @@ export const Engine = (props) => {
   };
 
   const update = (dt) => {
-    sprites = sprites.filter((sprite) => !sprite.destroyed);
+    trigger('update');
+
+    sprites = sprites.filter((sprite) => sprite.node.parentElement);
 
     sprites.forEach((sprite) => {
-      const { pos, vel, animation } = sprite;
-
       trigger('update', sprite);
 
+      const { pos, vel, animate } = sprite;
+
       // animate
-      if (animation.timer.delta() >= animation.current.delay * 1000) {
-        if (animation.current.frame < animation.current.sequence.length - 1) {
-          animation.current.frame++;
+      if (animate.timer.delta() >= animate.current.delay * 1000) {
+        if (animate.current.frame < animate.current.sequence.length - 1) {
+          animate.current.frame++;
         } else {
-          if (animation.current.repeat) animation.current.frame = 0;
+          if (animate.current.repeat) animate.current.frame = 0;
         }
 
-        animation.timer.reset();
+        animate.timer.reset();
       }
 
       pos.x += vel.x * dt;
@@ -116,13 +119,11 @@ export const Engine = (props) => {
         }
       });
     });
-
-    trigger('update');
   };
 
   const draw = () => {
     sprites.forEach((sprite) => {
-      const { pos, size, animation } = sprite;
+      const { pos, size, animate } = sprite;
 
       Object.assign(sprite.node.style, {
         transform: `translate(${pos.x - size.width / 2}px, ${
@@ -132,7 +133,7 @@ export const Engine = (props) => {
         width: `${size.width}px`,
         height: `${size.height}px`,
         backgroundPosition: `${-(
-          animation.current.sequence[animation.current.frame] * size.width
+          animate.current.sequence[animate.current.frame] * size.width
         )}px 0px`,
       });
     });
@@ -179,7 +180,7 @@ export const Engine = (props) => {
     Timer,
     keyboard,
 
-    size: props.size,
+    size,
 
     start: () => {
       timer.reset();

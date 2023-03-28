@@ -16,7 +16,7 @@ game.on('add', 'player', (sprite) => {
 game.on('update', 'player', (sprite) => {
   const { pos, vel, size } = sprite;
 
-  sprite.animation.play('idle');
+  sprite.animate.play('idle');
 
   vel.x = 0;
   vel.y = 0;
@@ -30,12 +30,12 @@ game.on('update', 'player', (sprite) => {
   }
 
   if (game.keyboard.isDown('ArrowLeft')) {
-    sprite.animation.play('left');
+    sprite.animate.play('left');
     vel.x = -100;
   }
 
   if (game.keyboard.isDown('ArrowRight')) {
-    sprite.animation.play('right');
+    sprite.animate.play('right');
     vel.x = 100;
   }
 });

@@ -9,9 +9,9 @@ const game = Engine({
   backgroundColor: '#000000',
 });
 
-game.on({ event: 'update' }, () => {});
+//game.on('update', () => {});
 
-game.on({ target: 'player', event: 'update' }, (sprite) => {
+game.on('update', 'player', (sprite) => {
   const { pos, vel, size } = sprite;
 
   sprite.animation.play('idle');
@@ -20,26 +20,26 @@ game.on({ target: 'player', event: 'update' }, (sprite) => {
   vel.y = 0;
 
   if (game.keyboard.isDown('ArrowUp')) {
-    vel.y = -1;
+    vel.y = -100;
   }
 
   if (game.keyboard.isDown('ArrowDown')) {
-    vel.y = 1;
+    vel.y = 100;
   }
 
   if (game.keyboard.isDown('ArrowLeft')) {
     sprite.animation.play('left');
-    vel.x = -1;
+    vel.x = -100;
   }
 
   if (game.keyboard.isDown('ArrowRight')) {
     sprite.animation.play('right');
-    vel.x = 1;
+    vel.x = 100;
   }
 });
 
 const player = game.add('sprite', {
-  tag: 'player',
+  tags: ['player'],
   src: 'https://stephenpruitt.com/rayborn/assets/player.png',
   size: {
     width: 21,

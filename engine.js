@@ -98,7 +98,7 @@ export const Engine = (props) => {
       pos.y += vel.y * dt;
     });
 
-    trigger('update');
+    //trigger('update');
   };
 
   const draw = () => {
@@ -150,7 +150,7 @@ export const Engine = (props) => {
         event.action(sprite);
       }
 
-      if (!tags) event.action && event.action();
+      //if (!event.tag) event.action && event.action();
     });
   };
 

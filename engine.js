@@ -71,7 +71,7 @@ export const Engine = (props) => {
               },
 
           play: function (name) {
-            sprite.current = sprite.animations[name];
+            sprite.animate.current = sprite.animations[name];
           },
           timer: Timer(),
         },

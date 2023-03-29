@@ -8,7 +8,11 @@ export const Engine = (props) => {
 
   const keyboard = Keyboard();
 
+  const events = {};
+
   const viewport = document.createElement('div');
+
+  let sprites = [];
 
   Object.assign(document.body.style, {
     margin: 0,
@@ -26,9 +30,6 @@ export const Engine = (props) => {
 
   document.body.append(viewport);
 
-  const events = {};
-  let sprites = [];
-
   const add = (name, props) => {
     if (name === 'sprite') {
       const { src, color } = props;
@@ -45,6 +46,9 @@ export const Engine = (props) => {
       });
 
       const sprite = {
+        area: {
+          ...props.size,
+        },
         ...props,
         pos: {
           x: 0,
@@ -67,12 +71,20 @@ export const Engine = (props) => {
               },
 
           play: function (name) {
-            this.current = sprite.animations[name];
+            sprite.current = sprite.animations[name];
           },
           timer: Timer(),
         },
-        destroy: function () {
-          this.node.remove();
+        on: {
+          collides: function (tag, action) {
+            getSpritesByTag(tag).forEach(
+              (other) => checkCollision(sprite, other) && action(other),
+              sprite
+            );
+          },
+          destroy: function () {
+            sprite.node.remove();
+          },
         },
       };
 
@@ -105,19 +117,6 @@ export const Engine = (props) => {
 
       pos.x += vel.x * dt;
       pos.y += vel.y * dt;
-
-      sprites.forEach((other) => {
-        if (sprite === other) return;
-
-        if (
-          sprite.pos.x < other.pos.x + other.size.width &&
-          sprite.pos.x + sprite.size.width > other.pos.x &&
-          sprite.pos.y < other.pos.y + other.size.height &&
-          sprite.size.height + sprite.pos.y > other.pos.y
-        ) {
-          trigger('collision', sprite, other);
-        }
-      });
     });
   };
 
@@ -163,19 +162,34 @@ export const Engine = (props) => {
     );
   };
 
-  const trigger = (event, ...args) => {
+  const trigger = (event, sprite) => {
     (events[event] || []).forEach((event) => {
-      if ((args[0]?.tags || []).includes(event.tag)) {
-        event.action(...args);
+      if ((sprite?.tags || []).includes(event.tag)) {
+        event.action(sprite);
       }
 
       if (!event.tag) event?.action();
     });
   };
 
+  const getSpritesByTag = (tag) => {
+    return sprites.filter((sprite) => sprite.tags.includes(tag));
+  };
+
+  const checkCollision = (a, b) => {
+    return (
+      a.pos.x < b.pos.x + b.size.width &&
+      a.pos.x + a.size.width > b.pos.x &&
+      a.pos.y < b.pos.y + b.size.height &&
+      a.size.height + a.pos.y > b.pos.y
+    );
+  };
+
   return {
     add,
+
     on,
+    trigger,
 
     Timer,
     keyboard,

@@ -38,13 +38,13 @@ game.on('update', 'player', (sprite) => {
     sprite.animate.play('right');
     vel.x = 100;
   }
+
+  sprite.on.collides('enemy', (other) => {
+    // sprite.destroy();
+  });
 });
 
-game.on('collision', 'player', (sprite, other) => {
-  sprite.destroy();
-});
-
-const player = game.add('sprite', {
+game.add('sprite', {
   tags: ['player'],
   src: 'https://stephenpruitt.com/rayborn/assets/player.png',
   size: {
@@ -77,6 +77,12 @@ const player = game.add('sprite', {
   },
 });
 
+game.on('update', 'fighter', (sprite) => {
+  sprite.on.collides('player', (other) => {
+    sprite.on.destroy();
+  });
+});
+
 game.add('sprite', {
   tags: ['fighter', 'enemy'],
   src: 'https://stephenpruitt.com/rayborn/assets/fighter.png',
@@ -91,38 +97,26 @@ game.add('sprite', {
   vel: {
     y: 50,
   },
+  state: {
+    current: 'idle',
+    states: ['idle', 'forward'],
+  },
 });
 
-// game.add('sprite', {
-//   tag: 'fighter',
-//   src: 'https://stephenpruitt.com/rayborn/assets/fighter.png',
-//   size: {
-//     width: 21,
-//     height: 26,
-//   },
-//   pos: {
-//     x: 100,
-//     y: 100,
-//   },
-//   vel: {
-//     y: 0.5,
-//   },
-// });
-
-// game.add('sprite', {
-//   tag: 'fighter',
-//   src: 'https://stephenpruitt.com/rayborn/assets/fighter.png',
-//   size: {
-//     width: 21,
-//     height: 26,
-//   },
-//   pos: {
-//     x: game.size.width - 100,
-//     y: 100,
-//   },
-//   vel: {
-//     y: 0.5,
-//   },
-// });
+game.add('sprite', {
+  tags: ['fighter'],
+  src: 'https://stephenpruitt.com/rayborn/assets/fighter.png',
+  size: {
+    width: 21,
+    height: 26,
+  },
+  pos: {
+    x: 100,
+    y: 100,
+  },
+  vel: {
+    y: 25,
+  },
+});
 
 game.start();

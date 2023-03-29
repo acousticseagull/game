@@ -82,9 +82,9 @@ export const Engine = (props) => {
               sprite
             );
           },
-          destroy: function () {
-            sprite.node.remove();
-          },
+        },
+        destroy: function () {
+          sprite.node.remove();
         },
       };
 

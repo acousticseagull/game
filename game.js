@@ -77,9 +77,29 @@ game.add('sprite', {
   },
 });
 
-game.on('update', 'fighter', (sprite) => {
+game.on('update', 'fighter', async (sprite) => {
+  if (sprite.state.current === 'idle') {
+    sprite.vel.y = 0;
+  }
+
+  if (sprite.state.current === 'forward') {
+    sprite.vel.y = 25;
+
+    if (sprite.pos.y >= 300) {
+      sprite.state.current = 'backward';
+    }
+  }
+
+  if (sprite.state.current === 'backward') {
+    sprite.vel.y = -30;
+
+    if (sprite.pos.y <= 100) {
+      sprite.state.current = 'forward';
+    }
+  }
+
   sprite.on.collides('player', (other) => {
-    sprite.on.destroy();
+    sprite.destroy();
   });
 });
 
@@ -95,11 +115,11 @@ game.add('sprite', {
     y: 100,
   },
   vel: {
-    y: 50,
+    y: 0,
   },
   state: {
     current: 'idle',
-    states: ['idle', 'forward'],
+    states: ['idle', 'forward', 'backward'],
   },
 });
 
@@ -115,7 +135,11 @@ game.add('sprite', {
     y: 100,
   },
   vel: {
-    y: 25,
+    y: 0,
+  },
+  state: {
+    current: 'forward',
+    states: ['idle', 'forward', 'backward'],
   },
 });
 

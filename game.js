@@ -22,11 +22,11 @@ game.on('update', 'player', (sprite) => {
   vel.y = 0;
 
   if (game.keyboard.isDown('ArrowUp')) {
-    vel.y = -100;
+    vel.y = -140;
   }
 
   if (game.keyboard.isDown('ArrowDown')) {
-    vel.y = 100;
+    vel.y = 80;
   }
 
   if (game.keyboard.isDown('ArrowLeft')) {

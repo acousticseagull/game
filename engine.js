@@ -162,10 +162,10 @@ export const Engine = (props) => {
     );
   };
 
-  const trigger = (event, sprite) => {
+  const trigger = (event, item) => {
     (events[event] || []).forEach((event) => {
-      if ((sprite?.tags || []).includes(event.tag)) {
-        event.action(sprite);
+      if ((item?.tags || []).includes(event.tag)) {
+        event.action(item);
       }
 
       if (!event.tag) event?.action();

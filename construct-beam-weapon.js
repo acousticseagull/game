@@ -1,7 +1,7 @@
 export const constructBeamWeapon = (game) => {
   return {
     tags: ['beam', 'enemy'],
-    src: 'https://stephenpruitt.com/rayborn/assets/construct-beam-weapon.png',
+    src: 'https://stephenpruitt.com/rayborn/assets/firefly-primary-weapon.png',
     size: {
       width: 9,
       height: 0,

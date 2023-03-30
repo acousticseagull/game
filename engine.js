@@ -117,6 +117,8 @@ export const Engine = (props) => {
         damage: function (amount) {
           sprite.health -= amount;
           sprite.on.damage();
+
+          if (sprite.health <= 0) sprite.destroy();
         },
         destroy: function () {
           sprite.node.remove();
@@ -138,7 +140,6 @@ export const Engine = (props) => {
     sprites = sprites.filter((sprite) => sprite.node.parentElement);
 
     sprites.forEach((sprite) => {
-      
       sprite.on.update(sprite, dt);
 
       const { pos, vel, animate } = sprite;

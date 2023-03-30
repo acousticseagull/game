@@ -1,3 +1,5 @@
+import { constructPrimaryWeapon } from './construct-primary-weapon.js';
+
 export const mothership = (game) => {
   return {
     tags: ['mothership', 'enemy'],
@@ -27,6 +29,19 @@ export const mothership = (game) => {
     },
 
     on: {
+      add: (sprite) => {
+
+        game.add('sprite', {
+          src: 'https://stephenpruitt.com/rayborn/assets/enemy-primary-weapon.png',
+          size: {
+            width: 20,
+            height: 20,
+          },
+          pos: {
+            ...sprite.pos
+          },
+        });
+      },
       update: (sprite) => {
         const { pos, vel, state, animate, collides } = sprite;
 

@@ -49,10 +49,12 @@ export const Engine = (props) => {
         area: {
           ...props.size,
         },
+        angle: 0,
         ...props,
         pos: {
           x: 0,
           y: 0,
+          z: 1,
           ...props.pos,
         },
         vel: {
@@ -84,6 +86,11 @@ export const Engine = (props) => {
             return this.current === state;
           },
         },
+        on: {
+          add: function () {},
+          update: function () {},
+          ...props.on,
+        },
         collides: function (tag, action) {
           getSpritesByTag(tag).forEach(
             (other) => checkCollision(sprite, other) && action(other),
@@ -109,6 +116,8 @@ export const Engine = (props) => {
     sprites.forEach((sprite) => {
       trigger('update', sprite);
 
+      sprite.on.update(sprite);
+
       const { pos, vel, animate } = sprite;
 
       // animate
@@ -129,18 +138,18 @@ export const Engine = (props) => {
 
   const draw = () => {
     sprites.forEach((sprite) => {
-      const { pos, size, animate } = sprite;
+      const { node, pos, size, angle, animate } = sprite;
 
-      Object.assign(sprite.node.style, {
-        transform: `translate(${pos.x - size.width / 2}px, ${
-          pos.y - size.height / 2
-        }px)`,
+      Object.assign(node.style, {
+        transform: `translate(${pos.x - size.width / 2}px, ${pos.y - size.height / 2}px)
+                    rotate(${angle}deg)`,
         transformOrigin: 'center',
         width: `${size.width}px`,
         height: `${size.height}px`,
         backgroundPosition: `${-(
           animate.current.sequence[animate.current.frame] * size.width
         )}px 0px`,
+        zIndex: pos.z
       });
     });
   };
@@ -182,6 +191,27 @@ export const Engine = (props) => {
   const getSpritesByTag = (tag) => {
     return sprites.filter((sprite) => sprite.tags.includes(tag));
   };
+  
+  function setAngleVel(value) {
+    this.vel.x = Math.sin(degreesToRadians(this.angle)) * value;
+    this.vel.y = -Math.cos(degreesToRadians(this.angle)) * value;
+    return this;
+  }
+
+  function setAngle(value) {
+    this.angle = value;
+    return this;
+  }
+
+  function setImageRepeat(value) {
+    this.node.style.backgroundRepeat = value ? 'repeat' : 'no-repeat';
+    return this;
+  }
+
+  function setRadius(value) {
+    this.node.style.borderRadius = value;
+    return this;
+  }
 
   const checkCollision = (a, b) => {
     return (
@@ -211,6 +241,8 @@ export const Engine = (props) => {
 
       sprites.forEach((sprite) => {
         viewport.append(sprite.node);
+
+        sprite.on.add(sprite);
 
         trigger('add', sprite);
       });

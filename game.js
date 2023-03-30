@@ -1,6 +1,7 @@
 import { Engine } from './engine.js';
 
 import { player } from './player.js';
+import { fighter } from './fighter.js';
 
 const game = Engine({
   size: {
@@ -11,6 +12,7 @@ const game = Engine({
   backgroundColor: '#000000',
 });
 
-player(game);
+game.add('sprite', player(game));
+game.add('sprite', fighter(game));
 
 game.start();

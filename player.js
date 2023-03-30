@@ -1,5 +1,5 @@
 export const player = (game) => {
-  game.add('sprite', {
+  return {
     tags: ['player'],
     src: 'https://stephenpruitt.com/rayborn/assets/player.png',
     size: {
@@ -67,5 +67,5 @@ export const player = (game) => {
         });
       },
     },
-  });
+  };
 };

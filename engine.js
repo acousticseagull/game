@@ -61,6 +61,11 @@ export const Engine = (props) => {
           x: 0,
           y: 0,
           ...props.vel,
+          set: function ({ x = sprite.vel.x, y = sprite.vel.y }) {
+            const { vel } = sprite;
+            vel.x = x;
+            vel.y = y;
+          },
         },
         animate: {
           current: props.animations
@@ -85,6 +90,14 @@ export const Engine = (props) => {
           is: function (state) {
             return this.current === state;
           },
+        },
+        setAngleVel: function (value) {
+          const { vel, angle } = sprite;
+          vel.x = Math.sin(degreesToRadians(angle)) * value;
+          vel.y = -Math.cos(degreesToRadians(angle)) * value;
+        },
+        setAngle: function (value) {
+          sprite.angle = value;
         },
         on: {
           add: function () {},
@@ -194,36 +207,15 @@ export const Engine = (props) => {
     return sprites.filter((sprite) => sprite.tags.includes(tag));
   };
 
-  function setAngleVel(value) {
-    this.vel.x = Math.sin(degreesToRadians(this.angle)) * value;
-    this.vel.y = -Math.cos(degreesToRadians(this.angle)) * value;
-    return this;
-  }
-
-  function setAngle(value) {
-    this.angle = value;
-    return this;
-  }
-
-  function setImageRepeat(value) {
-    this.node.style.backgroundRepeat = value ? 'repeat' : 'no-repeat';
-    return this;
-  }
-
-  function setRadius(value) {
-    this.node.style.borderRadius = value;
-    return this;
-  }
-
   const randomInt = (min, max) => {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
-  function distance(a, b) {
+  const distance = (a, b) => {
     return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
-  }
+  };
 
   const degreesToRadians = (degrees) => {
     return (degrees * Math.PI) / 180;

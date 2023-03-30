@@ -3,6 +3,7 @@ import { Engine } from './engine.js';
 import { player } from './player.js';
 import { fighter } from './fighter.js';
 import { mothership } from './mothership.js';
+import { constructBeamWeapon } from './construct-beam-weapon.js';
 
 const game = Engine({
   size: {
@@ -18,5 +19,7 @@ const game = Engine({
 
 game.add('sprite', player(game));
 game.add('sprite', mothership(game));
+
+game.add('sprite', constructBeamWeapon(game));
 
 game.start();

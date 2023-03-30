@@ -32,7 +32,7 @@ export const Engine = (props) => {
 
   const add = (name, props) => {
     if (name === 'sprite') {
-      const { src, color } = props;
+      const { src, color, backgroundRepeat } = props;
 
       props.node = document.createElement('div');
 
@@ -42,7 +42,7 @@ export const Engine = (props) => {
         overflow: 'hidden',
         backgroundColor: color || 'transparent',
         backgroundImage: `url(${src})`,
-        backgroundRepeat: 'no-repeat',
+        backgroundRepeat: `${backgroundRepeat || 'no-repeat'}`,
       });
 
       const sprite = {
@@ -50,11 +50,13 @@ export const Engine = (props) => {
           ...props.size,
         },
         angle: 0,
+        health: 0,
         ...props,
         pos: {
           x: 0,
           y: 0,
           z: 1,
+          origin: 'center center',
           ...props.pos,
         },
         vel: {
@@ -102,6 +104,8 @@ export const Engine = (props) => {
         on: {
           add: function () {},
           update: function () {},
+          damage: function () {},
+          destroy: function () {},
           ...props.on,
         },
         collides: function (tag, action) {
@@ -110,8 +114,13 @@ export const Engine = (props) => {
             sprite
           );
         },
+        damage: function (amount) {
+          sprite.health -= amount;
+          sprite.on.damage();
+        },
         destroy: function () {
           sprite.node.remove();
+          sprite.on.destroy();
         },
       };
 
@@ -124,15 +133,12 @@ export const Engine = (props) => {
   };
 
   const update = (dt) => {
-    //trigger('update');
+    on?.update(dt);
 
     sprites = sprites.filter((sprite) => sprite.node.parentElement);
 
     sprites.forEach((sprite) => {
-      //trigger('update', sprite);
-
-      on?.update(dt);
-
+      
       sprite.on.update(sprite, dt);
 
       const { pos, vel, animate } = sprite;
@@ -158,11 +164,13 @@ export const Engine = (props) => {
       const { node, pos, size, angle, animate } = sprite;
 
       Object.assign(node.style, {
-        transform: `translate(${pos.x - size.width / 2}px, ${
-          pos.y - size.height / 2
+        transform: `translate(${
+          pos.x - (pos.origin === 'center center' ? size.width / 2 : 0)
+        }px, ${
+          pos.y - (pos.origin === 'center center' ? size.height / 2 : 0)
         }px)
                     rotate(${angle}deg)`,
-        transformOrigin: 'center',
+        transformOrigin: pos.origin,
         width: `${size.width}px`,
         height: `${size.height}px`,
         backgroundPosition: `${-(
@@ -233,8 +241,6 @@ export const Engine = (props) => {
         }
 
         sprite.on.add(sprite);
-
-        //trigger('add', sprite);
       });
 
       console.log(sprites);

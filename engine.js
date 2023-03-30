@@ -22,9 +22,9 @@ export const Engine = (props) => {
     position: 'relative',
     overflow: 'hidden',
     imageRendering: 'pixelated',
-    transform: `scale(${scale})`,
     width: `${size.width}px`,
     height: `${size.height}px`,
+    transform: `scale(${scale})`,
     backgroundColor: backgroundColor,
   });
 
@@ -141,7 +141,9 @@ export const Engine = (props) => {
       const { node, pos, size, angle, animate } = sprite;
 
       Object.assign(node.style, {
-        transform: `translate(${pos.x - size.width / 2}px, ${pos.y - size.height / 2}px)
+        transform: `translate(${pos.x - size.width / 2}px, ${
+          pos.y - size.height / 2
+        }px)
                     rotate(${angle}deg)`,
         transformOrigin: 'center',
         width: `${size.width}px`,
@@ -149,7 +151,7 @@ export const Engine = (props) => {
         backgroundPosition: `${-(
           animate.current.sequence[animate.current.frame] * size.width
         )}px 0px`,
-        zIndex: pos.z
+        zIndex: pos.z,
       });
     });
   };
@@ -191,7 +193,7 @@ export const Engine = (props) => {
   const getSpritesByTag = (tag) => {
     return sprites.filter((sprite) => sprite.tags.includes(tag));
   };
-  
+
   function setAngleVel(value) {
     this.vel.x = Math.sin(degreesToRadians(this.angle)) * value;
     this.vel.y = -Math.cos(degreesToRadians(this.angle)) * value;
@@ -212,6 +214,20 @@ export const Engine = (props) => {
     this.node.style.borderRadius = value;
     return this;
   }
+
+  const randomInt = (min, max) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
+  function distance(a, b) {
+    return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
+  }
+
+  const degreesToRadians = (degrees) => {
+    return (degrees * Math.PI) / 180;
+  };
 
   const checkCollision = (a, b) => {
     return (

@@ -2,7 +2,7 @@ import { Timer } from './timer.js';
 import { Keyboard } from './keyboard.js';
 
 export const Engine = (props) => {
-  const { size, scale, backgroundColor } = props;
+  const { size, scale, backgroundColor, on } = props;
 
   const timer = Timer();
 
@@ -115,6 +115,8 @@ export const Engine = (props) => {
         },
       };
 
+      props.add && add('sprite', props.add(sprite));
+
       sprites.push(sprite);
 
       return sprite;
@@ -122,14 +124,16 @@ export const Engine = (props) => {
   };
 
   const update = (dt) => {
-    trigger('update');
+    //trigger('update');
 
     sprites = sprites.filter((sprite) => sprite.node.parentElement);
 
     sprites.forEach((sprite) => {
-      trigger('update', sprite);
+      //trigger('update', sprite);
 
-      sprite.on.update(sprite);
+      on?.update(dt);
+
+      sprite.on.update(sprite, dt);
 
       const { pos, vel, animate } = sprite;
 
@@ -180,29 +184,6 @@ export const Engine = (props) => {
     window.requestAnimationFrame(loop);
   };
 
-  const on = (event, tag, action) => {
-    (events[event] ??= []).push(
-      typeof tag === 'function'
-        ? {
-            action: tag,
-          }
-        : {
-            tag,
-            action,
-          }
-    );
-  };
-
-  const trigger = (event, item) => {
-    (events[event] || []).forEach((event) => {
-      if ((item?.tags || []).includes(event.tag)) {
-        event.action(item);
-      }
-
-      if (!event.tag) event?.action();
-    });
-  };
-
   const getSpritesByTag = (tag) => {
     return sprites.filter((sprite) => sprite.tags.includes(tag));
   };
@@ -233,9 +214,6 @@ export const Engine = (props) => {
   return {
     add,
 
-    on,
-    trigger,
-
     Timer,
     keyboard,
 
@@ -248,12 +226,18 @@ export const Engine = (props) => {
       // once complete ...
 
       sprites.forEach((sprite) => {
-        viewport.append(sprite.node);
+        if (sprite.parent) {
+          sprite.parent.node.append(sprite.node);
+        } else {
+          viewport.append(sprite.node);
+        }
 
         sprite.on.add(sprite);
 
-        trigger('add', sprite);
+        //trigger('add', sprite);
       });
+
+      console.log(sprites);
 
       window.requestAnimationFrame(loop);
     },

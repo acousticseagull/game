@@ -2,6 +2,7 @@ import { Engine } from './engine.js';
 
 import { player } from './player.js';
 import { fighter } from './fighter.js';
+import { mothership } from './mothership.js';
 
 const game = Engine({
   size: {
@@ -10,9 +11,12 @@ const game = Engine({
   },
   scale: 2,
   backgroundColor: '#000000',
+  on: {
+    update: () => {},
+  },
 });
 
 game.add('sprite', player(game));
-game.add('sprite', fighter(game));
+game.add('sprite', mothership(game));
 
 game.start();

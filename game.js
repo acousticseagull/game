@@ -4,10 +4,10 @@ import { player } from './player.js';
 
 const game = Engine({
   size: {
-    width: 400,
-    height: 500,
+    width: 340,
+    height: 460,
   },
-  scale: 1,
+  scale: 2,
   backgroundColor: '#000000',
 });
 

@@ -75,13 +75,20 @@ export const Engine = (props) => {
           },
           timer: Timer(),
         },
-        on: {
-          collides: function (tag, action) {
-            getSpritesByTag(tag).forEach(
-              (other) => checkCollision(sprite, other) && action(other),
-              sprite
-            );
+        state: {
+          ...props.state,
+          set: function (state) {
+            this.current = state;
           },
+          is: function (state) {
+            return this.current === state;
+          },
+        },
+        collides: function (tag, action) {
+          getSpritesByTag(tag).forEach(
+            (other) => checkCollision(sprite, other) && action(other),
+            sprite
+          );
         },
         destroy: function () {
           sprite.node.remove();

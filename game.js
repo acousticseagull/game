@@ -14,9 +14,7 @@ game.on('add', 'player', (sprite) => {
 });
 
 game.on('update', 'player', (sprite) => {
-  const { pos, vel, size } = sprite;
-
-  sprite.animate.play('idle');
+  const { pos, vel, size, animate, collides } = sprite;
 
   vel.x = 0;
   vel.y = 0;
@@ -30,16 +28,19 @@ game.on('update', 'player', (sprite) => {
   }
 
   if (game.keyboard.isDown('ArrowLeft')) {
-    sprite.animate.play('left');
     vel.x = -100;
   }
 
   if (game.keyboard.isDown('ArrowRight')) {
-    sprite.animate.play('right');
     vel.x = 100;
   }
 
-  sprite.on.collides('enemy', (other) => {
+  animate.play('idle');
+
+  if (vel.x < 0) animate.play('left');
+  if (vel.x > 0) animate.play('right');
+
+  collides('enemy', (other) => {
     // sprite.destroy();
   });
 });
@@ -77,28 +78,30 @@ game.add('sprite', {
   },
 });
 
-game.on('update', 'fighter', async (sprite) => {
-  if (sprite.state.current === 'idle') {
-    sprite.vel.y = 0;
+game.on('update', 'fighter', (sprite) => {
+  const { pos, vel, state, animate, collides } = sprite;
+
+  if (state.is('idle')) {
+    vel.x = 0;
   }
 
-  if (sprite.state.current === 'forward') {
-    sprite.vel.y = 25;
+  if (state.is('right')) {
+    vel.x = 25;
 
-    if (sprite.pos.y >= 300) {
-      sprite.state.current = 'backward';
+    if (pos.x >= 200) {
+      state.set('left');
     }
   }
 
-  if (sprite.state.current === 'backward') {
-    sprite.vel.y = -30;
+  if (state.is('left')) {
+    vel.x = -30;
 
-    if (sprite.pos.y <= 100) {
-      sprite.state.current = 'forward';
+    if (pos.x <= 100) {
+      state.current = 'right';
     }
   }
 
-  sprite.on.collides('player', (other) => {
+  collides('player', (other) => {
     sprite.destroy();
   });
 });
@@ -118,28 +121,8 @@ game.add('sprite', {
     y: 0,
   },
   state: {
-    current: 'idle',
-    states: ['idle', 'forward', 'backward'],
-  },
-});
-
-game.add('sprite', {
-  tags: ['fighter'],
-  src: 'https://stephenpruitt.com/rayborn/assets/fighter.png',
-  size: {
-    width: 21,
-    height: 26,
-  },
-  pos: {
-    x: 100,
-    y: 100,
-  },
-  vel: {
-    y: 0,
-  },
-  state: {
-    current: 'forward',
-    states: ['idle', 'forward', 'backward'],
+    current: 'left',
+    states: ['idle', 'left', 'right'],
   },
 });
 

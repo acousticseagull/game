@@ -20,6 +20,4 @@ const game = Engine({
 game.add('sprite', player(game));
 game.add('sprite', mothership(game));
 
-game.add('sprite', constructBeamWeapon(game));
-
 game.start();

@@ -5,8 +5,8 @@ export const mothership = (game) => {
     tags: ['mothership', 'enemy'],
     src: 'https://stephenpruitt.com/rayborn/assets/mothership.png',
     size: {
-      width: 71,
-      height: 71,
+      width: 70,
+      height: 70,
     },
     pos: {
       x: game.size.width / 2,
@@ -21,7 +21,7 @@ export const mothership = (game) => {
     },
     animations: {
       idle: {
-        sequence: [0, 1],
+        sequence: [0, 1, 2, 3],
         frame: 0,
         delay: 0.5,
         repeat: true,
@@ -30,7 +30,6 @@ export const mothership = (game) => {
 
     on: {
       add: (sprite) => {
-
         game.add('sprite', {
           src: 'https://stephenpruitt.com/rayborn/assets/enemy-primary-weapon.png',
           size: {
@@ -38,7 +37,7 @@ export const mothership = (game) => {
             height: 20,
           },
           pos: {
-            ...sprite.pos
+            ...sprite.pos,
           },
         });
       },

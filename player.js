@@ -6,10 +6,15 @@ export const player = (game) => {
       width: 21,
       height: 26,
     },
+    area: {
+      width: 10,
+      height: 10,
+    },
     pos: {
       x: game.size.width / 2,
       y: game.size.height - 100,
     },
+    health: 10,
     animations: {
       idle: {
         sequence: [0],

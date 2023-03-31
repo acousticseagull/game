@@ -50,7 +50,7 @@ export const Engine = (props) => {
           ...props.size,
         },
         angle: 0,
-        health: 0,
+        health: 1,
         ...props,
         pos: {
           x: 0,
@@ -96,7 +96,7 @@ export const Engine = (props) => {
         setAngleVel: function (value) {
           const { vel, angle } = sprite;
           vel.x = Math.sin(degreesToRadians(angle)) * value;
-          vel.y = -Math.cos(degreesToRadians(angle)) * value;
+          vel.y = Math.cos(degreesToRadians(angle)) * value;
         },
         setAngle: function (value) {
           sprite.angle = value;
@@ -121,6 +121,7 @@ export const Engine = (props) => {
           if (sprite.health <= 0) sprite.destroy();
         },
         destroy: function () {
+          sprite.status = 'destroyed';
           sprite.node.remove();
           sprite.on.destroy();
         },
@@ -137,9 +138,18 @@ export const Engine = (props) => {
   const update = (dt) => {
     on?.update(dt);
 
-    sprites = sprites.filter((sprite) => sprite.node.parentElement);
+    sprites = sprites.filter((sprite) => sprite.status !== 'destroyed');
 
     sprites.forEach((sprite) => {
+      if (sprite.status !== 'destroyed' && !sprite.node.parentElement) {
+        if (sprite.parent) {
+          sprite.parent.node.append(sprite.node);
+        } else {
+          viewport.append(sprite.node);
+        }
+        sprite.on.add(sprite);
+      }
+
       sprite.on.update(sprite, dt);
 
       const { pos, vel, animate } = sprite;
@@ -203,20 +213,24 @@ export const Engine = (props) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
+  const chance = (percent) => {
+    return Math.random() > percent;
+  },
+
   const distance = (a, b) => {
     return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
   };
 
   const degreesToRadians = (degrees) => {
-    return (degrees * Math.PI) / 180;
+    return degrees * (Math.PI / 180);
   };
 
   const checkCollision = (a, b) => {
     return (
-      a.pos.x < b.pos.x + b.size.width &&
-      a.pos.x + a.size.width > b.pos.x &&
-      a.pos.y < b.pos.y + b.size.height &&
-      a.size.height + a.pos.y > b.pos.y
+      a.pos.x < b.pos.x + b.area.width &&
+      a.pos.x + a.area.width > b.pos.x &&
+      a.pos.y < b.pos.y + b.area.height &&
+      a.area.height + a.pos.y > b.pos.y
     );
   };
 
@@ -228,23 +242,26 @@ export const Engine = (props) => {
 
     size,
 
+    randomInt,
+    chance,
+
     start: () => {
       timer.reset();
 
       // load assets
       // once complete ...
 
-      sprites.forEach((sprite) => {
-        if (sprite.parent) {
-          sprite.parent.node.append(sprite.node);
-        } else {
-          viewport.append(sprite.node);
-        }
+      // sprites.forEach((sprite) => {
+      //   if (sprite.parent) {
+      //     sprite.parent.node.append(sprite.node);
+      //   } else {
+      //     viewport.append(sprite.node);
+      //   }
 
-        sprite.on.add(sprite);
-      });
+      //   sprite.on.add(sprite);
+      // });
 
-      console.log(sprites);
+      // console.log(sprites);
 
       window.requestAnimationFrame(loop);
     },

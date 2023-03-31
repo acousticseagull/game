@@ -4,7 +4,7 @@ export const Timer = () => {
 
   return {
     set(m) {
-      m = m;
+      m = m * 1000;
       t = Date.now() + m;
     },
     reset() {

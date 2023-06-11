@@ -1,15 +1,13 @@
-import { constructPrimaryWeapon } from './construct-primary-weapon.js';
+//import { constructPrimaryWeapon } from './construct-primary-weapon.js';
 
 export const mothership = (game) => {
   return {
     tags: ['mothership', 'enemy'],
     src: 'https://stephenpruitt.com/rayborn/assets/mothership-sheet.png',
-    size: {
-      width: 70,
-      height: 70,
-    },
+    width: 70,
+    height: 70,
     pos: {
-      x: game.size.width / 2,
+      x: game.width / 2,
       y: -60,
     },
     vel: {
@@ -18,7 +16,7 @@ export const mothership = (game) => {
     state: {
       current: 'enter',
       counter: 0,
-      timer: game.Timer(),
+      timer: game.timer(),
     },
     animations: {
       idle: {
@@ -30,7 +28,7 @@ export const mothership = (game) => {
     },
 
     weapon: {
-      timer: game.Timer(),
+      timer: game.timer(),
       angle: 0,
       magazine: 30,
     },
@@ -55,7 +53,7 @@ export const mothership = (game) => {
             y: 60,
           });
 
-          if (pos.y > 40) {
+          if (pos.y > size.height * 2) {
             vel.set({
               y: 0,
             });
@@ -76,11 +74,11 @@ export const mothership = (game) => {
 
           if (pos.x > pos.start.x + 60 && vel.x > 0) {
             vel.x = -100;
-            state.counter++;
+            //state.counter++;
           }
 
           if (sprite.weapon.timer.expired()) {
-            let bullets = 5,
+            let bullets = 9,
               inc = 180 / (bullets - 1),
               a = 0;
 
@@ -96,7 +94,7 @@ export const mothership = (game) => {
                 },
                 pos: {
                   x: sprite.pos.x,
-                  y: sprite.pos.y + 40,
+                  y: sprite.pos.y,
                 },
                 angle,
                 animations: {
@@ -110,7 +108,8 @@ export const mothership = (game) => {
 
                 on: {
                   add: (sprite) => {
-                    sprite.setAngleVel(160);
+                    sprite.vel.x = Math.cos((angle * Math.PI) / 180) * 200;
+                    sprite.vel.y = Math.sin((angle * Math.PI) / 180) * 200;
                   },
                   update: (sprite) => {
                     const { pos } = sprite;

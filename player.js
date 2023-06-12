@@ -1,7 +1,7 @@
 export default function addPlayer(g) {
   g.add(
     g.sprite('player.png', 21, 26),
-    g.pos({ x: g.width() / 2, y: g.height() - 100 }),
+    g.pos({ x: g.width() / 2, y: g.height() - 100, z: 2 }),
     g.vel({ max: 200 }),
     g.area(),
     g.animation({
@@ -32,9 +32,7 @@ export default function addPlayer(g) {
     'player'
   );
 
-  g.on('add', (sprite) => {
-
-  }, 'player');
+  g.on('add', (sprite) => {}, 'player');
 
   g.on(
     'update',
@@ -849,6 +847,10 @@ export default function addPlayer(g) {
             'playerMissleWeapon'
           );
         }
+
+        // beam
+
+        // drone
       }
     },
     'player'

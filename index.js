@@ -847,11 +847,7 @@ function addPlayer(g) {
           g.add(
             g.sprite('player-missle.png', 9, 38),
             g.pos({ x: pos.x + 9, y: pos.y - 10 }),
-            g.accel({
-              x: -1,
-              y: -5,
-            }),
-            g.vel({ x: 120, y: 100, max: 800 }),
+            
             g.area(),
             g.animation({
               idle: {
@@ -884,7 +880,7 @@ function addPlayer(g) {
   g.on('update', (sprite, dt) => {
     const { vel, animation } = sprite;
 
-    if (vel.y < 0) animation.play('ignition');
+    if (animation.current === 'idle') animation.play('ignition');
   }, 'playerMissleWeapon');
 }
 

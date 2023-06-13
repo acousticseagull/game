@@ -1,8 +1,8 @@
 export default function addPlayer(g) {
   g.add(
     g.sprite('player.png', 21, 26),
-    g.pos({ x: g.width() / 2, y: g.height() - 100, z: 2 }),
-    g.vel({ max: 200 }),
+    g.pos({ x: g.width / 2, y: g.height - 100 }),
+    g.vel({ max: 500 }),
     g.area(),
     g.animation({
       idle: {
@@ -19,9 +19,11 @@ export default function addPlayer(g) {
       },
     }),
     {
+      z: 2,
+
       energy: {
-        actual: 15,
-        max: 15,
+        actual: 10,
+        max: 10,
       },
 
       timers: {
@@ -43,7 +45,7 @@ export default function addPlayer(g) {
       vel.y = 0;
 
       if (g.keyDown('ArrowUp')) {
-        vel.y = -240;
+        vel.y = -280;
       }
 
       if (g.keyDown('ArrowDown')) {
@@ -68,7 +70,7 @@ export default function addPlayer(g) {
           timers.primary.reset();
 
           // primary weapon
-          if (energy.actual < 10) {
+          if (energy.actual < 3) {
             g.add(
               g.sprite('player-primary-weapon.png', 11, 70),
               g.pos({ x: pos.x + 4, y: pos.y - 30 }),
@@ -108,7 +110,7 @@ export default function addPlayer(g) {
               },
               'playerPrimaryWeapon'
             );
-          } else if (energy.actual < 2) {
+          } else if (energy.actual < 4) {
             g.add(
               g.sprite('player-primary-weapon.png', 11, 70),
               g.pos({ x: pos.x + 4, y: pos.y - 30 }),
@@ -168,7 +170,7 @@ export default function addPlayer(g) {
               },
               'playerPrimaryWeapon'
             );
-          } else if (energy.actual < 4) {
+          } else if (energy.actual < 5) {
             g.add(
               g.sprite('player-primary-weapon.png', 11, 70),
               g.pos({ x: pos.x + 4, y: pos.y - 10 }),
@@ -268,7 +270,7 @@ export default function addPlayer(g) {
               },
               'playerPrimaryWeapon'
             );
-          } else if (energy.actual < 6) {
+          } else if (energy.actual < 7) {
             g.add(
               g.sprite('player-primary-weapon.png', 11, 70),
               g.pos({ x: pos.x + 4, y: pos.y - 30 }),
@@ -368,7 +370,7 @@ export default function addPlayer(g) {
               },
               'playerPrimaryWeapon'
             );
-          } else if (energy.actual < 10) {
+          } else if (energy.actual < 9) {
             g.add(
               g.sprite('player-primary-weapon.png', 11, 70),
               g.pos({ x: pos.x + 4, y: pos.y - 30 }),
@@ -468,7 +470,7 @@ export default function addPlayer(g) {
               },
               'playerPrimaryWeapon'
             );
-          } else if (energy.actual < 12) {
+          } else if (energy.actual < 10) {
             g.add(
               g.sprite('player-primary-weapon.png', 11, 70),
               g.pos({ x: pos.x + 4, y: pos.y - 40 }),
@@ -608,7 +610,7 @@ export default function addPlayer(g) {
               },
               'playerPrimaryWeapon'
             );
-          } else if (energy.actual <= 15) {
+          } else if (energy.actual === 10) {
             g.add(
               g.sprite('player-primary-weapon.png', 11, 70),
               g.pos({ x: pos.x + 4, y: pos.y - 10 }),
@@ -792,7 +794,7 @@ export default function addPlayer(g) {
         }
 
         // missle
-        if (energy.actual > 13 && timers.missle.expired()) {
+        if (energy.actual === 10 && timers.missle.expired()) {
           timers.missle.reset();
 
           g.add(
@@ -847,11 +849,14 @@ export default function addPlayer(g) {
             'playerMissleWeapon'
           );
         }
-
-        // beam
-
-        // drone
       }
+
+      // beam
+      if (g.keyPressed('b') && energy.actual === 10) {
+        // addPlayerBeamWeapon(g, sprite);
+      }
+
+      // drone
     },
     'player'
   );
@@ -874,5 +879,25 @@ export default function addPlayer(g) {
       if (vel.y < 0) animation.play('ignition');
     },
     'playerMissleWeapon'
+  );
+}
+
+function addPlayerBeamWeapon(g, player) {
+  const { pos } = player;
+
+  g.add(
+    g.sprite('player-beam-weapon.png', 48, 480),
+    g.pos({
+      x: pos.x - 13,
+      y: pos.y - 445,
+    }),
+    g.animation({
+      idle: {
+        sequence: [0, 1, 2],
+        delay: 0.01,
+        repeat: true,
+      },
+    }),
+    'playerBeamWeapon'
   );
 }

@@ -1,5 +1,6 @@
 import Game from './lib/game.js';
 import addPlayer from './player.js';
+import addFighter from './fighter.js';
 
 const g = Game({
   width: window.innerWidth,
@@ -7,7 +8,7 @@ const g = Game({
   scale: 1,
 });
 
-const baseURL = 'https://stephenpruitt.com/rayborn/assets/';
+const baseURL = '//stephenpruitt.com/rayborn/assets/';
 
 g.loadImage(baseURL + 'player.png');
 g.loadImage(baseURL + 'player-primary-weapon.png');
@@ -17,9 +18,11 @@ g.loadImage(baseURL + 'player-beam-weapon.png');
 g.loadImage(baseURL + 'player-energy-meter.png');
 g.loadImage(baseURL + 'health.png');
 
-g.scene('main', () => {
-  addPlayer(g);
+g.loadImage(baseURL + 'fighter.png');
 
+g.scene('main', () => {
+  
+  // draw interface
   g.on('draw', () => {
     const player = g.getSpriteByTag('player');
 
@@ -40,7 +43,10 @@ g.scene('main', () => {
     }
   });
 
-  //game.add('sprite', mothership(game));
+  addFighter(g, { x: 20, y: -26 }, { x: 0, y: 100 });
+  addFighter(g, { x: 200, y: -26 }, { x: 0, y: 140 });
+
+  addPlayer(g);
 });
 
 g.start('main');

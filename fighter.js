@@ -1,53 +1,34 @@
-export const fighter = (game) => {
-  return {
-    tags: ['fighter', 'enemy'],
-    src: 'https://stephenpruitt.com/rayborn/assets/fighter.png',
-    size: {
-      width: 21,
-      height: 26,
+export default function addFighter(g, pos, vel) {
+
+  g.on('update', (sprite) => {
+    const { pos, vel, width, state } = sprite;
+
+    if (pos.y > 0) {
+
+      if (g.randomInt(1, 1000) === 1) {
+
+        if (pos.x < g.width / 2) vel.x = 50;
+        else vel.x = -50;
+      }
+    }
+
+    if (pos.x <= 0) {
+      vel.x = 50;
+    }
+
+    if (pos.x >= g.width) {
+      vel.x = -50;
+    }
+  }, 'fighter');
+
+  g.add(
+    g.sprite('fighter.png', 21, 26), 
+    g.pos(pos),
+    g.vel(vel),
+    g.state('idle'),
+    {
+      z: 2
     },
-    pos: {
-      x: game.size.width / 2,
-      y: 100,
-    },
-    vel: {
-      y: 0,
-    },
-    state: {
-      current: 'left',
-      states: ['idle', 'left', 'right'],
-    },
-
-    on: {
-      update: (sprite) => {
-        const { pos, vel, state, animate, collides } = sprite;
-
-        if (state.is('idle')) {
-          vel.x = 0;
-        }
-
-        if (state.is('right')) {
-          vel.set({
-            x: 25,
-          });
-
-          if (pos.x >= 200) {
-            state.set('left');
-          }
-        }
-
-        if (state.is('left')) {
-          vel.x = -30;
-
-          if (pos.x <= 100) {
-            state.current = 'right';
-          }
-        }
-
-        collides('player', () => {
-          sprite.destroy();
-        });
-      },
-    },
-  };
+    'fighter'
+  );
 };

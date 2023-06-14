@@ -18,6 +18,8 @@ g.loadImage(baseURL + 'player-beam-weapon.png');
 g.loadImage(baseURL + 'player-energy-meter.png');
 g.loadImage(baseURL + 'health.png');
 
+g.loadImage(baseURL + 'explosion.png');
+
 g.loadImage(baseURL + 'fighter.png');
 
 g.scene('main', () => {

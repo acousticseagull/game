@@ -1,9 +1,12 @@
+import addSpark from './spark.js';
+import addExplosion from './explosion.js';
+
 export default function addPlayer(g) {
   const player = g.add(
     g.sprite('player.png', 21, 26),
     g.pos({ x: g.width / 2, y: g.height - 100 }),
     g.vel({ max: 500 }),
-    g.area(),
+    g.area(5, 10, 10, 15),
     g.animation({
       idle: {
         sequence: [0],
@@ -821,6 +824,12 @@ export default function addPlayer(g) {
 
     // drone
   };
+
+  player.onReceiveDamage = (amount) => {
+    console.log('took damage', player.hull);
+    player.hull.actual -= amount;
+    if (player.hull.actual <= 0) player.destroy();
+  };
 }
 
 function addPlayerMissle(g, settings) {
@@ -852,6 +861,21 @@ function addPlayerMissle(g, settings) {
   sprite.onUpdate = () => {
     const { vel, animation } = sprite;
     if (vel.y < 0) animation.play('ignition');
+  };
+
+  sprite.onCollide = (other) => {
+    if (other.hasTag('enemy')) {
+      const { pos } = sprite;
+
+      sprite.destroy();
+
+      addExplosion(g, {
+        pos: {
+          x: pos.x - 10,
+          y: pos.y - 10,
+        },
+      });
+    }
   };
 }
 

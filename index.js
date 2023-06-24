@@ -6,6 +6,7 @@ const g = Game({
   width: window.innerWidth,
   height: window.innerHeight,
   scale: 1,
+  debug: false,
 });
 
 const baseURL = '//stephenpruitt.com/rayborn/assets/';
@@ -17,16 +18,16 @@ g.loadImage(baseURL + 'player-missle.png');
 g.loadImage(baseURL + 'player-beam-weapon.png');
 g.loadImage(baseURL + 'player-energy-meter.png');
 g.loadImage(baseURL + 'health.png');
-
 g.loadImage(baseURL + 'explosion.png');
-
 g.loadImage(baseURL + 'fighter.png');
+g.loadImage(baseURL + 'enemy-primary-weapon.png');
 
 g.scene('main', () => {
-  
   // draw interface
   g.on('draw', () => {
     const player = g.getSpriteByTag('player');
+
+    if (!player) return;
 
     g.drawTile('player-energy-meter.png', 20, g.height - 40, 74, 20, 0);
 

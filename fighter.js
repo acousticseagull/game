@@ -14,8 +14,6 @@ export default function addFighter(g, pos, vel) {
         actual: 2,
         max: 3,
       },
-
-      turn: g.chance(50),
     },
     'fighter',
     'enemy'
@@ -27,30 +25,31 @@ export default function addFighter(g, pos, vel) {
     if (pos.y > 0) {
       vel.y = 120;
 
-      if (turn && pos.y > g.randomInt(80, 140)) {
-        if (pos.originx < 160) {
+      if (pos.y > 100) {
+        if (pos.origin.x < g.width / 2) {
           vel.x = 60;
         }
 
-        if (pos.origin.x > 160) {
+        if (pos.origin.x > g.width / 2) {
           vel.x = -60;
         }
       }
 
-      if (pos.y > g.randomInt(260, 280)) {
+      if (pos.y > g.randomInt(500, 600)) {
         vel.x = 0;
       }
 
       if (pos.x < 0) {
-        vel.x = 20;
+        vel.x = 60;
       }
 
       if (pos.x > g.width - width) {
-        vel.x = -20;
+        vel.x = -60;
       }
 
       if (pos.y > 100 && g.randomInt(1, 250) === 1) {
-        addFighterPrimaryWeapon(g, { pos });
+        const player = g.getSpriteByTag('player');
+        if (player) addFighterPrimaryWeapon(g, { pos });
       }
 
       if (pos.y > g.height) {
@@ -78,7 +77,7 @@ function addFighterPrimaryWeapon(g, settings) {
       },
     }),
     {
-      damage: 3,
+      damage: 1,
     },
     'enemyPrimaryWeapon'
   );

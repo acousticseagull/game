@@ -2,7 +2,7 @@ import addSpark from './spark.js';
 import addExplosion from './explosion.js';
 
 export default function addPlayer(g) {
-  const player = g.add(
+  const sprite = g.add(
     g.sprite('player.png', 21, 26),
     g.pos({ x: g.width / 2, y: g.height - 100 }),
     g.vel({ max: 500 }),
@@ -42,9 +42,9 @@ export default function addPlayer(g) {
     'player'
   );
 
-  player.onAdd = (sprite) => console.log(sprite);
+  sprite.onAdd = (sprite) => console.log(sprite);
 
-  player.onUpdate = (sprite, dt) => {
+  sprite.onUpdate = () => {
     const { pos, vel, size, animation, energy, timers } = sprite;
 
     vel.x = 0;
@@ -825,10 +825,20 @@ export default function addPlayer(g) {
     // drone
   };
 
-  player.onReceiveDamage = (amount) => {
-    console.log('took damage', player.hull);
-    player.hull.actual -= amount;
-    if (player.hull.actual <= 0) player.destroy();
+  sprite.onReceiveDamage = (amount) => {
+    sprite.hull.actual -= amount;
+    if (sprite.hull.actual <= 0) sprite.destroy();
+  };
+
+  sprite.onDestroy = () => {
+    const { pos } = sprite;
+
+    addExplosion(g, {
+      pos: {
+        x: pos.x - 10,
+        y: pos.y - 10,
+      },
+    });
   };
 }
 

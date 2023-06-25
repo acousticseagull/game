@@ -19,6 +19,10 @@ export default function addFighter(g, pos, vel) {
     'enemy'
   );
 
+  sprite.onAdd = () => {
+    sprite.state.set('forward');
+  };
+
   sprite.onUpdate = () => {
     const { pos, vel, width, height, turn, state } = sprite;
 
@@ -26,26 +30,41 @@ export default function addFighter(g, pos, vel) {
       vel.y = 120;
 
       if (pos.y > 100) {
-        if (pos.origin.x < g.width / 2) {
-          vel.x = 60;
-        }
-
-        if (pos.origin.x > g.width / 2) {
-          vel.x = -60;
-        }
       }
 
-      if (pos.y > g.randomInt(500, 600)) {
+      if (state.is('right')) {
+        vel.x = 20;
+      }
+
+      if (state.is('left')) {
+        vel.x = -20;
+      }
+
+      if (state.is('forward')) {
         vel.x = 0;
       }
 
-      if (pos.x < 0) {
-        vel.x = 60;
+      const rand = g.randomInt(1, 1000);
+
+      if (rand < 20) {
+        state.set('right');
       }
 
-      if (pos.x > g.width - width) {
-        vel.x = -60;
+      if (rand > 980) {
+        state.set('left');
       }
+
+      if (rand > 490 && rand < 500) {
+        state.set('forward');
+      }
+
+      // if (pos.y > g.randomInt(500, 600)) {
+      //   state.set('forward');
+      // }
+
+      if (pos.x < 0) state.set('right');
+
+      if (pos.x > g.width - width) state.set('left');
 
       if (pos.y > 100 && g.randomInt(1, 250) === 1) {
         const player = g.getSpriteByTag('player');

@@ -7,8 +7,8 @@ export default function addSpark(g, settings) {
     g.vel(vel),
     g.animation({
       idle: {
-        sequence: [1, 2, 3, 4, 5],
-        delay: 0.1,
+        sequence: [2, 3, 4, 5],
+        delay: 0.15,
         repeat: false,
         onComplete(sprite) {
           sprite.destroy();

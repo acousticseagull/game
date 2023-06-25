@@ -849,7 +849,7 @@ function addPlayerPrimaryWeapon(g, settings) {
           y: pos.y - 10,
         },
         vel: {
-          x: vel.x * 0.25,
+          x: vel.x * g.randomInt(-0.25, 0.25),
           y: vel.y * 0.25,
         },
       });

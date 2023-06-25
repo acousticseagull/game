@@ -15,6 +15,8 @@ export default function addFighter(g, pos, vel) {
         actual: 2,
         max: 3,
       },
+
+      turn: g.randomInt(1, 10) > 5 ? true : false,
     },
     'fighter',
     'enemy'
@@ -30,42 +32,21 @@ export default function addFighter(g, pos, vel) {
     if (pos.y > 0) {
       vel.y = 120;
 
-      if (pos.y > 100) {
+      if (turn && pos.y > g.randomInt(80, 140)) {
+        if (pos.origin.x < 160) {
+          vel.x = 60;
+        }
+
+        if (pos.origin.x > 160) {
+          vel.x = -60;
+        }
       }
 
-      if (state.is('right')) {
-        vel.x = 20;
-      }
+      if (pos.y > g.randomInt(260, 280)) vel.x = 0;
 
-      if (state.is('left')) {
-        vel.x = -20;
-      }
+      if (pos.x < 0) vel.x = 20;
 
-      if (state.is('forward')) {
-        vel.x = 0;
-      }
-
-      const rand = g.randomInt(1, 1000);
-
-      if (rand < 20) {
-        state.set('right');
-      }
-
-      if (rand > 980) {
-        state.set('left');
-      }
-
-      if (rand > 490 && rand < 500) {
-        state.set('forward');
-      }
-
-      // if (pos.y > g.randomInt(500, 600)) {
-      //   state.set('forward');
-      // }
-
-      if (pos.x < 0) state.set('right');
-
-      if (pos.x > g.width - width) state.set('left');
+      if (pos.x > g.width - width) vel.x = -20;
 
       if (pos.y > 100 && g.randomInt(1, 250) === 1) {
         const player = g.getSpriteByTag('player');

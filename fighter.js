@@ -1,4 +1,5 @@
 import addSpark from './spark.js';
+import addExplosion from './explosion.js';
 
 export default function addFighter(g, pos, vel) {
   const sprite = g.add(
@@ -77,7 +78,21 @@ export default function addFighter(g, pos, vel) {
     }
   };
 
-  sprite.onDestroy = () => {};
+  sprite.onReceiveDamage = (amount) => {
+    sprite.hull.actual -= amount;
+    if (sprite.hull.actual <= 0) sprite.destroy();
+  };
+
+  sprite.onDestroy = () => {
+    const { pos } = sprite;
+
+    addExplosion(g, {
+      pos: {
+        x: pos.x - 10,
+        y: pos.y - 10,
+      },
+    });
+  };
 }
 
 function addFighterPrimaryWeapon(g, settings) {

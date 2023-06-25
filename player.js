@@ -839,16 +839,22 @@ function addPlayerPrimaryWeapon(g, settings) {
 
   sprite.onCollide = (other) => {
     if (other.hasTag('enemy')) {
-      const { pos } = sprite;
+      const { pos, damage } = sprite;
 
-      sprite.destroy();
+      other.receiveDamage(damage);
 
       addSpark(g, {
         pos: {
           x: pos.x - 10,
           y: pos.y - 10,
         },
+        vel: {
+          x: vel.x * 0.25,
+          y: vel.y * 0.25,
+        },
       });
+
+      sprite.destroy();
     }
   };
 }

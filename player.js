@@ -30,7 +30,7 @@ export default function addPlayer(g) {
       },
 
       energy: {
-        actual: 10,
+        actual: 2,
         max: 10,
       },
 
@@ -77,45 +77,18 @@ export default function addPlayer(g) {
 
         // primary weapon
         if (energy.actual < 3) {
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 30 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: -10, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [2],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 1,
-            },
-            'playerPrimaryWeapon'
-          );
-
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 30 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: 10, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [2],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 1,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 30 },
+            vel: { x: -10, y: -100, max: 800 },
+            sequence: [2],
+            damage: 1,
+          });
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 30 },
+            vel: { x: 10, y: -100, max: 800 },
+            sequence: [2],
+            damage: 1,
+          });
         } else if (energy.actual < 4) {
           g.add(
             g.sprite('player-primary-weapon.png', 11, 70),
@@ -839,6 +812,44 @@ export default function addPlayer(g) {
         y: pos.y - 10,
       },
     });
+  };
+}
+
+function addPlayerPrimaryWeapon(g, settings) {
+  const { pos, vel, sequence, damage } = settings;
+
+  const sprite = g.add(
+    g.sprite('player-primary-weapon.png', 11, 70),
+    g.pos(pos),
+    g.accel({
+      y: -100,
+    }),
+    g.vel(vel),
+    g.area(),
+    g.animation({
+      idle: {
+        sequence,
+      },
+    }),
+    {
+      damage,
+    },
+    'playerPrimaryWeapon'
+  );
+
+  sprite.onCollide = (other) => {
+    if (other.hasTag('enemy')) {
+      const { pos } = sprite;
+
+      sprite.destroy();
+
+      addSpark(g, {
+        pos: {
+          x: pos.x - 10,
+          y: pos.y - 10,
+        },
+      });
+    }
   };
 }
 

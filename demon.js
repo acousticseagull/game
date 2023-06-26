@@ -27,17 +27,19 @@ export default function addDemon(g, pos, vel) {
   sprite.onAdd = () => {};
 
   sprite.onUpdate = () => {
-    const { pos, vel, timers } = sprite;
+    const { pos, vel, width, timers } = sprite;
 
     if (pos.y > g.height / 2) {
       vel.y = 40;
       vel.x = -400;
+
+      if (vel.x < 0 && pos.x < g.width && timers.primary.expired()) {
+        addDemonMine(g, { pos });
+        timers.primary.reset();
+      }
     }
 
-    if (vel.x < 0 && pos.x < g.width && pos.x > 0 && timers.primary.expired()) {
-      addDemonMine(g, { pos });
-      timers.primary.reset();
-    }
+    if (pos.x < -width) sprite.destroy();
   };
 
   sprite.onReceiveDamage = (amount) => {
@@ -48,7 +50,7 @@ export default function addDemon(g, pos, vel) {
   sprite.onDestroy = () => {
     const { pos } = sprite;
 
-    if (pos.y < g.height)
+    if (pos.x > g.width)
       addExplosion(g, {
         pos: {
           x: pos.x - 10,
@@ -70,7 +72,7 @@ function addDemonMine(g, settings) {
     g.vel({
       y: 60,
     }),
-    g.area(8, 8, 14, 14),
+    g.area(),
     g.animation({
       idle: {
         sequence: [0, 1],
@@ -78,9 +80,13 @@ function addDemonMine(g, settings) {
       },
     }),
     {
+      hull: {
+        actual: 3,
+      },
       damage: 10,
     },
-    'demonMine'
+    'demonMine',
+    'enemy'
   );
 
   sprite.onAdd = () => {};
@@ -94,6 +100,11 @@ function addDemonMine(g, settings) {
       sprite.destroy();
       other.receiveDamage(sprite.damage);
     }
+  };
+
+  sprite.onReceiveDamage = (amount) => {
+    sprite.hull.actual -= amount;
+    if (sprite.hull.actual <= 0) sprite.destroy();
   };
 
   sprite.onDestroy = () => {

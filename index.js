@@ -2,6 +2,7 @@ import Game from './lib/game.js';
 import addPlayer from './player.js';
 import addFighter from './fighter.js';
 import addDemon from './demon.js';
+import addImperial from './imperial.js';
 
 const g = Game({
   width: window.innerWidth,
@@ -21,6 +22,12 @@ g.loadImage(baseURL + 'player-energy-meter.png');
 g.loadImage(baseURL + 'health.png');
 g.loadImage(baseURL + 'explosion.png');
 g.loadImage(baseURL + 'fighter.png');
+g.loadImage(baseURL + 'imperial.png');
+g.loadImage(baseURL + 'firefly.png');
+g.loadImage(baseURL + 'blackwidow.png');
+g.loadImage(baseURL + 'carrier.png');
+g.loadImage(baseURL + 'wing.png');
+g.loadImage(baseURL + 'star-eater.png');
 g.loadImage(baseURL + 'demon.png');
 g.loadImage(baseURL + 'demon-mine.png');
 g.loadImage(baseURL + 'enemy-primary-weapon.png');
@@ -53,6 +60,8 @@ g.scene('main', () => {
   addFighter(g, { x: 200, y: -100 }, { x: 0, y: 140 });
   addFighter(g, { x: 240, y: -140 }, { x: 0, y: 140 });
   addFighter(g, { x: 280, y: -100 }, { x: 0, y: 140 });
+
+  addImperial(g, { x: 320, y: -180 }, { x: 0, y: 140 });
 
   addDemon(g, { x: g.width + 100, y: 200 });
 

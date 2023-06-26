@@ -30,12 +30,12 @@ export default function addPlayer(g) {
       },
 
       energy: {
-        actual: 2,
+        actual: 10,
         max: 10,
       },
 
       timers: {
-        primary: g.timer(0.1),
+        primary: g.timer(0.125),
         missle: g.timer(0.5),
       },
     },
@@ -81,694 +81,252 @@ export default function addPlayer(g) {
             pos: { x: pos.x + 4, y: pos.y - 30 },
             vel: { x: -10, y: -100, max: 800 },
             sequence: [2],
-            damage: 1,
+            damage: 1.5,
           });
           addPlayerPrimaryWeapon(g, {
             pos: { x: pos.x + 4, y: pos.y - 30 },
             vel: { x: 10, y: -100, max: 800 },
             sequence: [2],
-            damage: 1,
+            damage: 1.5,
           });
         } else if (energy.actual < 4) {
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 30 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: -20, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [2],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 1,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 30 },
+            vel: { x: -20, y: -100, max: 800 },
+            sequence: [2],
+            damage: 1.5,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 30 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [2],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 1,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 40 },
+            vel: { y: -100, max: 800 },
+            sequence: [2],
+            damage: 2,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 30 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: 20, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [2],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 1,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 30 },
+            vel: { x: 20, y: -100, max: 800 },
+            sequence: [2],
+            damage: 1.5,
+          });
         } else if (energy.actual < 5) {
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 10 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: -35, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [1],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 0.5,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 10 },
+            vel: { x: -35, y: -100, max: 800 },
+            sequence: [1],
+            damage: 1.5,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 25 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: -20, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [2],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 1,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 25 },
+            vel: { x: -20, y: -100, max: 800 },
+            sequence: [2],
+            damage: 2,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 35 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: 0, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [3],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 2,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 35 },
+            vel: { y: -100, max: 800 },
+            sequence: [3],
+            damage: 2.5,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 25 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: 20, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [2],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 1,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 25 },
+            vel: { x: 20, y: -100, max: 800 },
+            sequence: [2],
+            damage: 2,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 10 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: 35, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [1],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 0.5,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 10 },
+            vel: { x: 35, y: -100, max: 800 },
+            sequence: [1],
+            damage: 1.5,
+          });
         } else if (energy.actual < 7) {
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 30 }),
-            g.accel({
-              y: -90,
-            }),
-            g.vel({ x: -60, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [1],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 0.5,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 15 },
+            vel: { x: -60, y: -100, max: 800 },
+            sequence: [2],
+            damage: 2,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 30 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: -30, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [2],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 1,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 30 },
+            vel: { x: -30, y: -100, max: 800 },
+            sequence: [2],
+            damage: 2,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 35 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: 0, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [3],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 2,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 35 },
+            vel: { x: 0, y: -100, max: 800 },
+            sequence: [3],
+            damage: 3,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 30 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: 30, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [2],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 1,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 30 },
+            vel: { x: 30, y: -100, max: 800 },
+            sequence: [2],
+            damage: 2,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 30 }),
-            g.accel({
-              y: -90,
-            }),
-            g.vel({ x: 60, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [1],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 0.5,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 15 },
+            vel: { x: 60, y: -100, max: 800 },
+            sequence: [2],
+            damage: 2,
+          });
         } else if (energy.actual < 9) {
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 30 }),
-            g.accel({
-              y: -90,
-            }),
-            g.vel({ x: -60, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [2],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 1,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 20 },
+            vel: { x: -60, y: -100, max: 800 },
+            sequence: [2],
+            damage: 2,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 40 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: -30, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [3],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 2,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 40 },
+            vel: { x: -30, y: -100, max: 800 },
+            sequence: [3],
+            damage: 2.5,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 60 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: 0, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [4],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 4,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 60 },
+            vel: { x: 0, y: -100, max: 800 },
+            sequence: [4],
+            damage: 3.5,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 40 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: 30, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [3],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 2,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 40 },
+            vel: { x: 30, y: -100, max: 800 },
+            sequence: [3],
+            damage: 2.5,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 30 }),
-            g.accel({
-              y: -90,
-            }),
-            g.vel({ x: 60, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [2],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 1,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 20 },
+            vel: { x: 60, y: -100, max: 800 },
+            sequence: [2],
+            damage: 2,
+          });
         } else if (energy.actual < 10) {
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 40 }),
-            g.accel({
-              y: -90,
-            }),
-            g.vel({ x: -90, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [2],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 1,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 30 },
+            vel: { x: -90, y: -100, max: 800 },
+            sequence: [2],
+            damage: 2,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 60 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: -60, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [3],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 2,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 60 },
+            vel: { x: -60, y: -100, max: 800 },
+            sequence: [3],
+            damage: 2.5,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 80 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: -30, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [3],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 2,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 80 },
+            vel: { x: -30, y: -100, max: 800 },
+            sequence: [3],
+            damage: 2.5,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 90 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: 0, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [4],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 4,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 90 },
+            vel: { x: 0, y: -100, max: 800 },
+            sequence: [4],
+            damage: 3.5,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 80 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: 30, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [3],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 2,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 80 },
+            vel: { x: 30, y: -100, max: 800 },
+            sequence: [3],
+            damage: 2.5,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 60 }),
-            g.accel({
-              y: -90,
-            }),
-            g.vel({ x: 60, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [3],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 2,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 60 },
+            vel: { x: 60, y: -100, max: 800 },
+            sequence: [3],
+            damage: 2.5,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 40 }),
-            g.accel({
-              y: -90,
-            }),
-            g.vel({ x: 90, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [2],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 1,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 30 },
+            vel: { x: 90, y: -100, max: 800 },
+            sequence: [2],
+            damage: 2,
+          });
         } else if (energy.actual === 10) {
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 10 }),
-            g.accel({
-              y: -90,
-            }),
-            g.vel({ x: -110, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [1],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 0.5,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 10 },
+            vel: { x: -110, y: -100, max: 800 },
+            sequence: [1],
+            damage: 1.5,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 40 }),
-            g.accel({
-              y: -90,
-            }),
-            g.vel({ x: -90, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [2],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 0.1,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 40 },
+            vel: { x: -90, y: -100, max: 800 },
+            sequence: [2],
+            damage: 2,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 60 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: -60, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [3],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 2,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 60 },
+            vel: { x: -60, y: -100, max: 800 },
+            sequence: [3],
+            damage: 2.5,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 80 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: -30, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [3],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 2,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 80 },
+            vel: { x: -30, y: -100, max: 800 },
+            sequence: [4],
+            damage: 3,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 90 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: 0, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [4],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 4,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 90 },
+            vel: { x: 0, y: -100, max: 800 },
+            sequence: [4],
+            damage: 3,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 80 }),
-            g.accel({
-              y: -100,
-            }),
-            g.vel({ x: 30, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [3],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 2,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 80 },
+            vel: { x: 30, y: -100, max: 800 },
+            sequence: [4],
+            damage: 3,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 60 }),
-            g.accel({
-              y: -90,
-            }),
-            g.vel({ x: 60, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [3],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 2,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 60 },
+            vel: { x: 60, y: -100, max: 800 },
+            sequence: [3],
+            damage: 2.5,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 40 }),
-            g.accel({
-              y: -90,
-            }),
-            g.vel({ x: 90, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [2],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 1,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 40 },
+            vel: { x: 90, y: -100, max: 800 },
+            sequence: [2],
+            damage: 2,
+          });
 
-          g.add(
-            g.sprite('player-primary-weapon.png', 11, 70),
-            g.pos({ x: pos.x + 4, y: pos.y - 10 }),
-            g.accel({
-              y: -90,
-            }),
-            g.vel({ x: 110, y: -100, max: 800 }),
-            g.area(),
-            g.animation({
-              idle: {
-                sequence: [1],
-                frame: 0,
-              },
-            }),
-            {
-              damage: 0.5,
-            },
-            'playerPrimaryWeapon'
-          );
+          addPlayerPrimaryWeapon(g, {
+            pos: { x: pos.x + 4, y: pos.y - 10 },
+            vel: { x: 110, y: -100, max: 800 },
+            sequence: [1],
+            damage: 1.5,
+          });
         }
       }
 
@@ -778,14 +336,14 @@ export default function addPlayer(g) {
 
         addPlayerMissle(g, {
           pos: { x: pos.x + 6, y: pos.y + 4 },
-          vel: { x: -80, y: 100, max: 800 },
-          accel: { x: 1, y: -6 },
+          vel: { x: -80, y: 200, max: 1500 },
+          accel: { x: 1.5, y: -15 },
         });
 
         addPlayerMissle(g, {
           pos: { x: pos.x + 6, y: pos.y + 4 },
-          vel: { x: 80, y: 100, max: 800 },
-          accel: { x: -1, y: -6 },
+          vel: { x: 80, y: 200, max: 1500 },
+          accel: { x: -1.5, y: -15 },
         });
       }
     }
@@ -837,6 +395,12 @@ function addPlayerPrimaryWeapon(g, settings) {
     'playerPrimaryWeapon'
   );
 
+  sprite.onUpdate = () => {
+    const { pos } = sprite;
+
+    if (pos.y < 0) sprite.destroy();
+  };
+
   sprite.onCollide = (other) => {
     if (other.hasTag('enemy')) {
       const { pos, damage } = sprite;
@@ -880,7 +444,7 @@ function addPlayerMissle(g, settings) {
       },
     }),
     {
-      damage: 6,
+      damage: 10,
     },
     'playerMissleWeapon'
   );

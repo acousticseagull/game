@@ -11,8 +11,7 @@ export default function addFighter(g, pos, vel) {
       z: 2,
 
       hull: {
-        actual: 2,
-        max: 3,
+        actual: 10,
       },
 
       turn: g.randomInt(1, 10) > 5 ? true : false,

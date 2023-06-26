@@ -1,12 +1,12 @@
 import addSpark from './spark.js';
 import addExplosion from './explosion.js';
 
-export default function addImperial(g, pos, vel) {
+export default function addImperial(g, pos) {
   const sprite = g.add(
     g.sprite('imperial.png', 17, 34),
     g.pos(pos),
-    g.vel(vel),
-    g.state('idle'),
+    g.vel({ y: 120 }),
+    g.state('start'),
     g.area(),
     {
       z: 2,
@@ -18,8 +18,13 @@ export default function addImperial(g, pos, vel) {
       timers: {
         weapon: {
           cooldown: g.timer(2),
-          depay: g.timer(0.3),
+          delay: g.timer(0.3),
         },
+      },
+
+      counters: {
+        weapon: 3,
+        hover: 3,
       },
     },
     'imperial',
@@ -29,12 +34,65 @@ export default function addImperial(g, pos, vel) {
   sprite.onAdd = () => {};
 
   sprite.onUpdate = () => {
-    const { pos, vel, width, turn } = sprite;
+    const { pos, vel, width, state, timers, counters } = sprite;
 
     if (pos.y > 0) {
-      if (pos.y > 100 && g.randomInt(1, 250) === 1) {
-        const player = g.getSpriteByTag('player');
-        if (player) addImperialPrimaryWeapon(g, { pos });
+      if (state.is('start')) {
+        if (pos.y < 60) {
+          vel.y = 40;
+        }
+
+        if (pos.y > 60) {
+          vel.y = 10;
+          vel.x = -5;
+
+          pos.origin = { ...pos };
+
+          state.set('hover');
+        }
+      }
+
+      if (state.is('hover')) {
+        if (pos.x <= pos.origin.x - 20 && vel.x <= 0) {
+          vel.x = 5;
+        }
+
+        if (pos.x >= pos.origin.x + 20 && vel.x >= 0) {
+          vel.x = -5;
+          counters.hover--;
+        }
+
+        if (pos.y <= pos.origin.y - 20 && vel.y <= 0) {
+          vel.y = 10;
+        }
+
+        if (pos.y >= pos.origin.y + 20 && vel.y >= 0) {
+          vel.y = -10;
+        }
+      }
+
+      if (state.is('end')) {
+        vel.x = 0;
+        vel.y = 80;
+      }
+
+      if (counters.hover === 0) {
+        state.set('end');
+      }
+
+      if (timers.weapon.cooldown.expired()) {
+        if (timers.weapon.delay.expired()) {
+          const player = g.getSpriteByTag('player');
+          if (player) addImperialPrimaryWeapon(g, { pos });
+
+          counters.weapon--;
+          timers.weapon.delay.reset();
+        }
+
+        if (counters.weapon === 0) {
+          counters.weapon = 3;
+          timers.weapon.cooldown.reset();
+        }
       }
     }
 
@@ -55,7 +113,7 @@ export default function addImperial(g, pos, vel) {
       addExplosion(g, {
         pos: {
           x: pos.x - 10,
-          y: pos.y - 10,
+          y: pos.y,
         },
       });
   };
@@ -67,8 +125,8 @@ function addImperialPrimaryWeapon(g, settings) {
   const sprite = g.add(
     g.sprite('enemy-primary-weapon.png', 22, 22),
     g.pos({
-      x: pos.x,
-      y: pos.y,
+      x: pos.x - 3,
+      y: pos.y + 10,
     }),
     g.area(8, 8, 14, 14),
     g.animation({
@@ -77,9 +135,9 @@ function addImperialPrimaryWeapon(g, settings) {
       },
     }),
     {
-      damage: 1,
+      damage: 3,
     },
-    'enemyPrimaryWeapon'
+    'imperialPrimaryWeapon'
   );
 
   sprite.onAdd = () => {
@@ -87,8 +145,8 @@ function addImperialPrimaryWeapon(g, settings) {
     const angle = sprite.angleTo(player);
 
     sprite.vel = {
-      x: Math.cos(angle) * 160,
-      y: Math.sin(angle) * 160,
+      x: Math.cos(angle) * 200,
+      y: Math.sin(angle) * 200,
     };
   };
 

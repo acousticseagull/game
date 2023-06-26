@@ -56,14 +56,11 @@ g.scene('main', () => {
     }
   });
 
-  addFighter(g, { x: 20, y: -26 }, { x: 0, y: 100 });
-  addFighter(g, { x: 200, y: -100 }, { x: 0, y: 140 });
-  addFighter(g, { x: 240, y: -140 }, { x: 0, y: 140 });
-  addFighter(g, { x: 280, y: -100 }, { x: 0, y: 140 });
+  // addFighter(g, { x: 20, y: -26 }, { x: 0, y: 100 });
 
   addImperial(g, { x: 320, y: -180 }, { x: 0, y: 140 });
 
-  addDemon(g, { x: g.width + 100, y: 200 });
+  // addDemon(g, { x: g.width + 100, y: 200 });
 
   addPlayer(g);
 });

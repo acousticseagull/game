@@ -1,11 +1,11 @@
 import addSpark from './spark.js';
 import addExplosion from './explosion.js';
 
-export default function addFighter(g, pos, vel) {
+export default function addFighter(g, pos) {
   const sprite = g.add(
     g.sprite('fighter.png', 21, 26),
     g.pos(pos),
-    g.vel(vel),
+    g.vel({ y: 120 }),
     g.area(),
     {
       z: 2,
@@ -91,7 +91,7 @@ function addFighterPrimaryWeapon(g, settings) {
     {
       damage: 1,
     },
-    'enemyPrimaryWeapon'
+    'fighterPrimaryWeapon'
   );
 
   sprite.onAdd = () => {

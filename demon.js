@@ -5,8 +5,7 @@ export default function addDemon(g, pos, vel) {
     g.sprite('demon.png', 24, 13),
     g.pos(pos),
     g.vel({
-      x: 0,
-      y: 60,
+      y: 120,
     }),
     g.area(),
     {

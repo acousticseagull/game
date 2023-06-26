@@ -30,7 +30,7 @@ export default function addPlayer(g) {
       },
 
       energy: {
-        actual: 10,
+        actual: 1,
         max: 10,
       },
 

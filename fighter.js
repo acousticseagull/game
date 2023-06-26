@@ -64,12 +64,13 @@ export default function addFighter(g, pos, vel) {
   sprite.onDestroy = () => {
     const { pos } = sprite;
 
-    addExplosion(g, {
-      pos: {
-        x: pos.x - 10,
-        y: pos.y - 10,
-      },
-    });
+    if (pos.y < g.height)
+      addExplosion(g, {
+        pos: {
+          x: pos.x - 10,
+          y: pos.y - 10,
+        },
+      });
   };
 }
 

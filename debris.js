@@ -11,7 +11,7 @@ export default function addDebris(g, settings) {
     g.animation({
       idle: {
         sequence: [2, 3, 4, 5],
-        delay: g.randomFloat(0.2, 0.5),
+        delay: g.randomFloat(0.2, 0.4),
         repeat: false,
         onComplete(sprite) {
           sprite.destroy();

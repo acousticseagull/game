@@ -24,7 +24,7 @@ export default function addExplosion(g, settings) {
   sprite.onAdd = () => {
     const { pos } = sprite;
 
-    for (let i = 1; i < 6; i++) {
+    for (let i = 0; i < 5; i++) {
       addDebris(g, { pos });
     }
   };

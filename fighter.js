@@ -6,7 +6,6 @@ export default function addFighter(g, pos, vel) {
     g.sprite('fighter.png', 21, 26),
     g.pos(pos),
     g.vel(vel),
-    g.state('idle'),
     g.area(),
     {
       z: 2,
@@ -22,12 +21,10 @@ export default function addFighter(g, pos, vel) {
     'enemy'
   );
 
-  sprite.onAdd = () => {
-    sprite.state.set('forward');
-  };
+  sprite.onAdd = () => {};
 
   sprite.onUpdate = () => {
-    const { pos, vel, width, height, turn, state } = sprite;
+    const { pos, vel, width, turn } = sprite;
 
     if (pos.y > 0) {
       vel.y = 120;

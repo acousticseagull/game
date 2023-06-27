@@ -20,6 +20,6 @@ export default function addEnergy(g, settings) {
     if (!other.hasTag('player')) return;
 
     sprite.destroy();
-    other.energy += other.energy < 10 ? 0.15 : 0;
+    other.energy.actual += other.energy.actual < 10 ? 0.15 : 0;
   };
 }

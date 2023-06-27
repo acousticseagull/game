@@ -2,7 +2,8 @@ import addSpark from './spark.js';
 import addExplosion from './explosion.js';
 import addEnergy from './energy.js';
 
-export default function addImperial(g, pos) {
+export default function addImperial(g, settings) {
+  const { pos } = settings;
   const sprite = g.add(
     g.sprite('imperial.png', 17, 34),
     g.pos(pos),
@@ -21,7 +22,7 @@ export default function addImperial(g, pos) {
       timers: {
         weapon: {
           cooldown: g.timer(2),
-          delay: g.timer(0.3),
+          delay: g.timer(0.5),
         },
       },
 
@@ -37,9 +38,9 @@ export default function addImperial(g, pos) {
   sprite.onAdd = () => {};
 
   sprite.onUpdate = () => {
-    const { pos, vel, width, state, timers, counters } = sprite;
+    const { pos, vel, height, state, timers, counters } = sprite;
 
-    if (pos.y > 0) {
+    if (pos.y > -height) {
       if (state.is('start')) {
         if (pos.y < 60) {
           vel.y = 40;
@@ -122,7 +123,12 @@ export default function addImperial(g, pos) {
     });
 
     for (let i = 0; i < sprite.level; i++) {
-      addEnergy(g, { pos: { x: pos.x - 10, y: pos.y } });
+      addEnergy(g, {
+        pos: {
+          x: pos.x - 10 + g.randomInt(-20, 20),
+          y: pos.y + g.randomInt(-20, 20),
+        },
+      });
     }
   };
 }

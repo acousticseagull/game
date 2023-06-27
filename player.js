@@ -30,7 +30,7 @@ export default function addPlayer(g) {
       },
 
       energy: {
-        actual: 1,
+        actual: 1.3,
         max: 10,
       },
 
@@ -45,25 +45,25 @@ export default function addPlayer(g) {
   sprite.onAdd = (sprite) => console.log(sprite);
 
   sprite.onUpdate = () => {
-    const { pos, vel, size, animation, energy, timers } = sprite;
+    const { pos, vel, width, height, animation, energy, timers } = sprite;
 
     vel.x = 0;
     vel.y = 0;
 
     if (g.keyDown('ArrowUp')) {
-      vel.y = -280;
+      if (pos.y > 0) vel.y = -280;
     }
 
     if (g.keyDown('ArrowDown')) {
-      vel.y = 200;
+      if (pos.y < g.height - height) vel.y = 200;
     }
 
     if (g.keyDown('ArrowLeft')) {
-      vel.x = -240;
+      if (pos.x > 0) vel.x = -240;
     }
 
     if (g.keyDown('ArrowRight')) {
-      vel.x = 240;
+      if (pos.x < g.width - width) vel.x = 240;
     }
 
     animation.play('idle');

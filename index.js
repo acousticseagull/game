@@ -4,6 +4,7 @@ import addFighter from './fighter.js';
 import addDemon from './demon.js';
 import addImperial from './imperial.js';
 import addEnergy from './energy.js';
+import addCarrier from './carrier.js';
 
 const g = Game({
   width: window.innerWidth,
@@ -61,7 +62,7 @@ g.scene('main', () => {
 
   // addFighter(g, { x: 20, y: -26 }, { x: 0, y: 100 });
 
-  addImperial(g, { x: 320, y: -180 }, { x: 0, y: 140 });
+  addCarrier(g, { pos: { x: 320, y: -180 }});
   addEnergy(g, { pos: { x: 320, y: 100 } });
 
   // addDemon(g, { x: g.width + 100, y: 200 });

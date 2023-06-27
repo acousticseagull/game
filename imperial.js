@@ -1,5 +1,6 @@
 import addSpark from './spark.js';
 import addExplosion from './explosion.js';
+import addEnergy from './energy.js';
 
 export default function addImperial(g, pos) {
   const sprite = g.add(
@@ -10,6 +11,8 @@ export default function addImperial(g, pos) {
     g.area(),
     {
       z: 2,
+
+      level: 5,
 
       hull: {
         actual: 40,
@@ -109,13 +112,18 @@ export default function addImperial(g, pos) {
   sprite.onDestroy = () => {
     const { pos } = sprite;
 
-    if (pos.y < g.height)
-      addExplosion(g, {
-        pos: {
-          x: pos.x - 10,
-          y: pos.y,
-        },
-      });
+    if (pos.y > g.height) return;
+
+    addExplosion(g, {
+      pos: {
+        x: pos.x - 10,
+        y: pos.y,
+      },
+    });
+
+    for (let i = 0; i < sprite.level; i++) {
+      addEnergy(g, { pos: { x: pos.x - 10, y: pos.y } });
+    }
   };
 }
 

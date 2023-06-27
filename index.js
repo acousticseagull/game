@@ -3,6 +3,7 @@ import addPlayer from './player.js';
 import addFighter from './fighter.js';
 import addDemon from './demon.js';
 import addImperial from './imperial.js';
+import addEnergy from './energy.js';
 
 const g = Game({
   width: window.innerWidth,
@@ -21,6 +22,7 @@ g.loadImage(baseURL + 'player-beam-weapon.png');
 g.loadImage(baseURL + 'player-energy-meter.png');
 g.loadImage(baseURL + 'health.png');
 g.loadImage(baseURL + 'explosion.png');
+g.loadImage(baseURL + 'energy.png');
 g.loadImage(baseURL + 'fighter.png');
 g.loadImage(baseURL + 'imperial.png');
 g.loadImage(baseURL + 'firefly.png');
@@ -33,16 +35,17 @@ g.loadImage(baseURL + 'demon-mine.png');
 g.loadImage(baseURL + 'enemy-primary-weapon.png');
 
 g.scene('main', () => {
-  // draw interface
-  g.on('draw', () => {
-    const player = g.getSpriteByTag('player');
+  addPlayer(g);
 
-    if (!player) return;
+  g.global.player = g.getSpriteByTag('player');
+
+  g.on('draw', () => {
+    if (!g.global.player) return;
 
     g.drawTile('player-energy-meter.png', 20, g.height - 40, 74, 20, 0);
 
     let x = 23;
-    for (let i = 0; i < player.energy.actual; i++) {
+    for (let i = 0; i < g.global.player.energy.actual; i++) {
       if (i < 3) {
         g.drawTile('health.png', x, g.height - 41, 5, 18, 0);
       } else if (i < 6) {
@@ -59,10 +62,9 @@ g.scene('main', () => {
   // addFighter(g, { x: 20, y: -26 }, { x: 0, y: 100 });
 
   addImperial(g, { x: 320, y: -180 }, { x: 0, y: 140 });
+  addEnergy(g, { pos: { x: 320, y: 100 } });
 
   // addDemon(g, { x: g.width + 100, y: 200 });
-
-  addPlayer(g);
 });
 
 g.start('main');

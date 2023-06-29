@@ -50,19 +50,19 @@ export default function addPlayer(g) {
     vel.x = 0;
     vel.y = 0;
 
-    if (g.keyDown('ArrowUp')) {
+    if (g.gamepad.up(0) || g.keyDown('ArrowUp')) {
       if (pos.y > 0) vel.y = -280;
     }
 
-    if (g.keyDown('ArrowDown')) {
+    if (g.gamepad.down(0) || g.keyDown('ArrowDown')) {
       if (pos.y < g.height - height) vel.y = 200;
     }
 
-    if (g.keyDown('ArrowLeft')) {
+    if (g.gamepad.left(0) || g.keyDown('ArrowLeft')) {
       if (pos.x > 0) vel.x = -240;
     }
 
-    if (g.keyDown('ArrowRight')) {
+    if (g.gamepad.right(0) || g.keyDown('ArrowRight')) {
       if (pos.x < g.width - width) vel.x = 240;
     }
 
@@ -71,7 +71,7 @@ export default function addPlayer(g) {
     if (vel.x < 0) animation.play('left');
     if (vel.x > 0) animation.play('right');
 
-    if (g.keyDown('x')) {
+    if (g.gamepad.buttonDown(0, 0) || g.keyDown('x')) {
       if (timers.primary.expired()) {
         timers.primary.reset();
 

@@ -162,6 +162,10 @@ function addBlackwidowPrimaryWeapon(g, settings) {
     'blackwidowPrimaryWeapon'
   );
 
+  sprite.onUpdate = () => {
+    if (!sprite.isOnCamera()) sprite.destroy();
+  };
+
   sprite.onCollide = (other) => {
     if (other.hasTag('player')) {
       sprite.destroy();
@@ -172,15 +176,16 @@ function addBlackwidowPrimaryWeapon(g, settings) {
   sprite.onDestroy = () => {
     const { pos, vel } = sprite;
 
-    addSpark(g, {
-      pos: {
-        x: pos.x - 10,
-        y: pos.y - 10,
-      },
-      vel: {
-        x: vel.x * 0.25,
-        y: vel.y * 0.25,
-      },
-    });
+    if (sprite.isOnCamera())
+      addSpark(g, {
+        pos: {
+          x: pos.x - 10,
+          y: pos.y - 10,
+        },
+        vel: {
+          x: vel.x * 0.25,
+          y: vel.y * 0.25,
+        },
+      });
   };
 }

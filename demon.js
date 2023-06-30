@@ -109,7 +109,7 @@ function addDemonMine(g, settings) {
   sprite.onDestroy = () => {
     const { pos } = sprite;
 
-    if (pos.y < g.height)
+    if (sprite.isOnCamera())
       addExplosion(g, {
         pos: {
           x: pos.x - 10,

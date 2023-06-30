@@ -22,12 +22,12 @@ export default function addBlackwidow(g, settings) {
       timers: {
         weapon: {
           cooldown: g.timer(2),
-          delay: g.timer(0.5),
+          delay: g.timer(0.7),
         },
       },
 
       counters: {
-        weapon: 3,
+        weapon: 2,
         hover: 3,
       },
     },
@@ -101,7 +101,7 @@ export default function addBlackwidow(g, settings) {
         }
 
         if (counters.weapon === 0) {
-          counters.weapon = 3;
+          counters.weapon = 2;
           timers.weapon.cooldown.reset();
         }
       }
@@ -148,7 +148,7 @@ function addBlackwidowPrimaryWeapon(g, settings) {
     g.pos(pos),
     g.vel({
       x: vel.x,
-      y: 250,
+      y: 100,
     }),
     g.area(8, 8, 14, 14),
     g.animation({

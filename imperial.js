@@ -28,7 +28,7 @@ export default function addImperial(g, settings) {
 
       counters: {
         weapon: 3,
-        hover: 3,
+        hover: 1,
       },
     },
     'imperial',
@@ -155,8 +155,7 @@ function addImperialPrimaryWeapon(g, settings) {
   );
 
   sprite.onAdd = () => {
-    const player = g.getSpriteByTag('player');
-    const angle = sprite.angleTo(player);
+    const angle = sprite.angleTo(g.global.player);
 
     sprite.vel = {
       x: Math.cos(angle) * 200,

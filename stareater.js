@@ -5,7 +5,7 @@ import addEnergy from './energy.js';
 export default function addStareater(g, settings) {
   const { pos } = settings;
   const sprite = g.add(
-    g.sprite('stareater.png', 29, 27),
+    g.sprite('star-eater.png', 39, 59),
     g.pos(pos),
     g.vel({ y: 120 }),
     g.state('start'),
@@ -13,10 +13,10 @@ export default function addStareater(g, settings) {
     {
       z: 2,
 
-      level: 8,
+      level: 10,
 
       hull: {
-        actual: 100,
+        actual: 200,
       },
 
       timers: {
@@ -72,7 +72,6 @@ export default function addStareater(g, settings) {
 
         if (pos.y >= pos.origin.y + 20 && vel.y >= 0) {
           vel.y = -10;
-          counters.hover--;
         }
 
         if (counters.hover === 0) {
@@ -90,11 +89,9 @@ export default function addStareater(g, settings) {
           if (g.global.player) {
             addStareaterPrimaryWeapon(g, {
               pos: { x: pos.x - 10, y: pos.y + 15 },
-              vel: { x: -5 },
             });
             addStareaterPrimaryWeapon(g, {
-              pos: { x: pos.x + 3, y: pos.y + 20 },
-              vel: { x: 0 },
+              pos: { x: pos.x + 25, y: pos.y + 15 },
             });
           }
 
@@ -103,7 +100,7 @@ export default function addStareater(g, settings) {
         }
 
         if (counters.weapon === 0) {
-          counters.weapon = 3;
+          counters.weapon = 5;
           timers.weapon.cooldown.reset();
         }
       }
@@ -143,26 +140,31 @@ export default function addStareater(g, settings) {
 }
 
 function addStareaterPrimaryWeapon(g, settings) {
-  const { pos, vel } = settings;
+  const { pos } = settings;
 
   const sprite = g.add(
     g.sprite('enemy-primary-weapon.png', 22, 22),
     g.pos(pos),
-    g.vel({
-      x: vel.x,
-      y: 250,
-    }),
     g.area(8, 8, 14, 14),
     g.animation({
       idle: {
-        sequence: [0],
+        sequence: [2],
       },
     }),
     {
-      damage: 3,
+      damage: 5,
     },
     'stareaterPrimaryWeapon'
   );
+
+  sprite.onAdd = () => {
+    const angle = sprite.angleTo(g.global.player);
+
+    sprite.vel = {
+      x: Math.cos(angle) * 300,
+      y: Math.sin(angle) * 300,
+    };
+  };
 
   sprite.onCollide = (other) => {
     if (other.hasTag('player')) {

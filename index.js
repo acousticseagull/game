@@ -6,6 +6,7 @@ import addImperial from './imperial.js';
 import addEnergy from './energy.js';
 import addCarrier from './carrier.js';
 import addBlackwidow from './blackwidow.js';
+import addStareater from './stareater.js';
 
 const g = Game({
   width: window.innerWidth,
@@ -64,9 +65,10 @@ g.scene('main', () => {
   addImperial(g, { pos: { x: 60, y: -66 } });
 
   addBlackwidow(g, { pos: { x: 320, y: -200 } });
+  addStareater(g, { pos: { x: 220, y: -300 } });
   //addEnergy(g, { pos: { x: 320, y: 100 } });
 
-  // addDemon(g, { x: g.width + 100, y: 200 });
+  addDemon(g, { x: g.width + 100, y: 200 });
 });
 
 g.start('main');

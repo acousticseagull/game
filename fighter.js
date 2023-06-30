@@ -1,7 +1,8 @@
 import addSpark from './spark.js';
 import addExplosion from './explosion.js';
 
-export default function addFighter(g, pos) {
+export default function addFighter(g, settings) {
+  const { pos } = settings;
   const sprite = g.add(
     g.sprite('fighter.png', 21, 26),
     g.pos(pos),

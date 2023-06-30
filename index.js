@@ -5,12 +5,13 @@ import addDemon from './demon.js';
 import addImperial from './imperial.js';
 import addEnergy from './energy.js';
 import addCarrier from './carrier.js';
+import addBlackwidow from './blackwidow.js';
 
 const g = Game({
   width: window.innerWidth,
   height: window.innerHeight,
   scale: 1,
-  debug: false,
+  debug: true,
 });
 
 const baseURL = '//stephenpruitt.com/rayborn/assets/';
@@ -29,7 +30,6 @@ g.loadImage(baseURL + 'imperial.png');
 g.loadImage(baseURL + 'firefly.png');
 g.loadImage(baseURL + 'blackwidow.png');
 g.loadImage(baseURL + 'carrier.png');
-g.loadImage(baseURL + 'wing.png');
 g.loadImage(baseURL + 'star-eater.png');
 g.loadImage(baseURL + 'demon.png');
 g.loadImage(baseURL + 'demon-mine.png');
@@ -60,10 +60,11 @@ g.scene('main', () => {
     }
   });
 
-  // addFighter(g, { x: 20, y: -26 }, { x: 0, y: 100 });
+  addFighter(g, { pos: { x: 20, y: -26 } });
+  addImperial(g, { pos: { x: 60, y: -66 } });
 
-  addCarrier(g, { pos: { x: 320, y: -180 }});
-  addEnergy(g, { pos: { x: 320, y: 100 } });
+  addBlackwidow(g, { pos: { x: 320, y: -200 } });
+  //addEnergy(g, { pos: { x: 320, y: 100 } });
 
   // addDemon(g, { x: g.width + 100, y: 200 });
 });

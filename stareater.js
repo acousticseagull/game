@@ -2,10 +2,10 @@ import addSpark from './spark.js';
 import addExplosion from './explosion.js';
 import addEnergy from './energy.js';
 
-export default function addImperial(g, settings) {
+export default function addStareater(g, settings) {
   const { pos } = settings;
   const sprite = g.add(
-    g.sprite('imperial.png', 17, 34),
+    g.sprite('stareater.png', 29, 27),
     g.pos(pos),
     g.vel({ y: 120 }),
     g.state('start'),
@@ -13,10 +13,10 @@ export default function addImperial(g, settings) {
     {
       z: 2,
 
-      level: 5,
+      level: 8,
 
       hull: {
-        actual: 40,
+        actual: 100,
       },
 
       timers: {
@@ -31,7 +31,7 @@ export default function addImperial(g, settings) {
         hover: 3,
       },
     },
-    'imperial',
+    'stareater',
     'enemy'
   );
 
@@ -72,6 +72,7 @@ export default function addImperial(g, settings) {
 
         if (pos.y >= pos.origin.y + 20 && vel.y >= 0) {
           vel.y = -10;
+          counters.hover--;
         }
 
         if (counters.hover === 0) {
@@ -81,13 +82,21 @@ export default function addImperial(g, settings) {
 
       if (state.is('end')) {
         vel.x = 0;
-        vel.y = 80;
+        vel.y = 40;
       }
 
       if (timers.weapon.cooldown.expired()) {
         if (timers.weapon.delay.expired()) {
-          const player = g.getSpriteByTag('player');
-          if (player) addImperialPrimaryWeapon(g, { pos });
+          if (g.global.player) {
+            addStareaterPrimaryWeapon(g, {
+              pos: { x: pos.x - 10, y: pos.y + 15 },
+              vel: { x: -5 },
+            });
+            addStareaterPrimaryWeapon(g, {
+              pos: { x: pos.x + 3, y: pos.y + 20 },
+              vel: { x: 0 },
+            });
+          }
 
           counters.weapon--;
           timers.weapon.delay.reset();
@@ -133,36 +142,27 @@ export default function addImperial(g, settings) {
   };
 }
 
-function addImperialPrimaryWeapon(g, settings) {
-  const { pos } = settings;
+function addStareaterPrimaryWeapon(g, settings) {
+  const { pos, vel } = settings;
 
   const sprite = g.add(
     g.sprite('enemy-primary-weapon.png', 22, 22),
-    g.pos({
-      x: pos.x - 3,
-      y: pos.y + 10,
+    g.pos(pos),
+    g.vel({
+      x: vel.x,
+      y: 250,
     }),
     g.area(8, 8, 14, 14),
     g.animation({
       idle: {
-        sequence: [1],
+        sequence: [0],
       },
     }),
     {
       damage: 3,
     },
-    'imperialPrimaryWeapon'
+    'stareaterPrimaryWeapon'
   );
-
-  sprite.onAdd = () => {
-    const player = g.getSpriteByTag('player');
-    const angle = sprite.angleTo(player);
-
-    sprite.vel = {
-      x: Math.cos(angle) * 200,
-      y: Math.sin(angle) * 200,
-    };
-  };
 
   sprite.onCollide = (other) => {
     if (other.hasTag('player')) {

@@ -91,7 +91,7 @@ function addDemonMine(g, settings) {
   sprite.onAdd = () => {};
 
   sprite.onUpdate = () => {
-    if (pos.y > g.height) sprite.destroy();
+    if (!sprite.isOnCamera()) sprite.destroy();
   };
 
   sprite.onCollide = (other) => {

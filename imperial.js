@@ -163,6 +163,10 @@ function addImperialPrimaryWeapon(g, settings) {
     };
   };
 
+  sprite.onUpdate = () => {
+    if (!sprite.isOnCamera()) sprite.destroy();
+  };
+
   sprite.onCollide = (other) => {
     if (other.hasTag('player')) {
       sprite.destroy();

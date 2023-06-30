@@ -12,7 +12,7 @@ const g = Game({
   width: window.innerWidth,
   height: window.innerHeight,
   scale: 1,
-  debug: true,
+  debug: false,
 });
 
 const baseURL = '//stephenpruitt.com/rayborn/assets/';
@@ -64,8 +64,12 @@ g.scene('main', () => {
   addFighter(g, { pos: { x: 20, y: -26 } });
   addImperial(g, { pos: { x: 60, y: -66 } });
 
-  addBlackwidow(g, { pos: { x: 320, y: -200 } });
-  addStareater(g, { pos: { x: 220, y: -300 } });
+  // addBlackwidow(g, { pos: { x: 500, y: -200 } });
+  // addBlackwidow(g, { pos: { x: 320, y: -250 } });
+  // addBlackwidow(g, { pos: { x: 240, y: -200 } });
+  // addStareater(g, { pos: { x: 220, y: -300 } });
+  // addStareater(g, { pos: { x: 420, y: -500 } });
+  // addStareater(g, { pos: { x: 120, y: -300 } });
   //addEnergy(g, { pos: { x: 320, y: 100 } });
 
   addDemon(g, { x: g.width + 100, y: 200 });

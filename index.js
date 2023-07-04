@@ -3,15 +3,16 @@ import addPlayer from './player.js';
 import addFighter from './fighter.js';
 import addDemon from './demon.js';
 import addImperial from './imperial.js';
-import addEnergy from './energy.js';
 import addCarrier from './carrier.js';
 import addBlackwidow from './blackwidow.js';
 import addStareater from './stareater.js';
 import addFirefly from './firefly.js';
 
+import level from './level.js';
+
 const g = Game({
-  width: window.innerWidth,
-  height: window.innerHeight,
+  width: 480,
+  height: 720,
   scale: 1,
   debug: false,
 });
@@ -63,17 +64,20 @@ g.scene('main', () => {
     }
   });
 
-  addFirefly(g, { pos: { x: 20, y: -26 } });
-  // addImperial(g, { pos: { x: 60, y: -66 } });
+  const objects = {
+    fighter: addFighter,
+    carrier: addCarrier,
+    imperial: addImperial,
+    blackwidow: addBlackwidow,
+    demon: addDemon,
+    stareater: addStareater,
+    firefly: addFirefly,
+  };
 
-  // addBlackwidow(g, { pos: { x: 500, y: -200 } });
-  // addBlackwidow(g, { pos: { x: 320, y: -250 } });
-  // addBlackwidow(g, { pos: { x: 240, y: -200 } });
-  // addStareater(g, { pos: { x: 220, y: -300 } });
-  // addStareater(g, { pos: { x: 420, y: -500 } });
-  // addStareater(g, { pos: { x: 120, y: -300 } });
-
-  // addDemon(g, { x: g.width + 100, y: 200 });
+  level.forEach(({ tag, x, y }) => {
+    console.log(tag);
+    objects[tag](g, { pos: { x, y } });
+  });
 });
 
 g.start('main');

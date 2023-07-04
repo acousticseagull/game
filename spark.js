@@ -3,7 +3,10 @@ export default function addSpark(g, settings) {
 
   g.add(
     g.sprite('explosion.png', 44, 42),
-    g.pos(pos),
+    g.pos({
+      x: pos.x + g.randomInt(-2, 2),
+      y: pos.y + g.randomInt(-2, 2),
+    }),
     g.vel(vel),
     g.animation({
       idle: {

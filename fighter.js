@@ -109,16 +109,9 @@ function addFighterPrimaryWeapon(g, settings) {
   };
 
   sprite.onCollide = (other) => {
-    if (other.hasTag('player')) {
-      sprite.destroy();
-      other.receiveDamage(sprite.damage);
-    }
-  };
-
-  sprite.onDestroy = () => {
     const { pos, vel } = sprite;
 
-    if (sprite.isOnCamera())
+    if (other.hasTag('player')) {
       addSpark(g, {
         pos: {
           x: pos.x - 10,
@@ -129,5 +122,23 @@ function addFighterPrimaryWeapon(g, settings) {
           y: vel.y * 0.25,
         },
       });
+
+      sprite.destroy();
+      other.receiveDamage(sprite.damage);
+    }
+  };
+
+  sprite.onDestroy = () => {
+    const { pos } = sprite;
+
+    if (sprite.isOnCamera())
+      for (let i = 0; i < sprite.level; i++) {
+        addEnergy(g, {
+          pos: {
+            x: pos.x - 10 + g.randomInt(-20, 20),
+            y: pos.y + g.randomInt(-20, 20),
+          },
+        });
+      }
   };
 }

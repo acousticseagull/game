@@ -50,11 +50,6 @@ export default [
     y: -4642,
   },
   {
-    tag: 'wing',
-    x: 404,
-    y: -2800,
-  },
-  {
     tag: 'fighter',
     x: 124,
     y: -4378,
@@ -75,11 +70,6 @@ export default [
     y: -646,
   },
   {
-    tag: 'wing',
-    x: 168,
-    y: -2700,
-  },
-  {
     tag: 'fighter',
     x: 424,
     y: -1322,
@@ -88,61 +78,6 @@ export default [
     tag: 'fighter',
     x: 220,
     y: -1510,
-  },
-  {
-    tag: 'wing',
-    x: 264,
-    y: -2176,
-  },
-  {
-    tag: 'wing',
-    x: 444,
-    y: -2300,
-  },
-  {
-    tag: 'wing',
-    x: 88,
-    y: -2328,
-  },
-  {
-    tag: 'wing',
-    x: 308,
-    y: -2536,
-  },
-  {
-    tag: 'wing',
-    x: 96,
-    y: -3072,
-  },
-  {
-    tag: 'wing',
-    x: 272,
-    y: -3136,
-  },
-  {
-    tag: 'wing',
-    x: 332,
-    y: -3856,
-  },
-  {
-    tag: 'wing',
-    x: 232,
-    y: -3424,
-  },
-  {
-    tag: 'wing',
-    x: 420,
-    y: -3484,
-  },
-  {
-    tag: 'wing',
-    x: 68,
-    y: -3492,
-  },
-  {
-    tag: 'wing',
-    x: 388,
-    y: -3948,
   },
   {
     tag: 'fighter',
@@ -308,16 +243,6 @@ export default [
     tag: 'fighter',
     x: 352,
     y: -5846,
-  },
-  {
-    tag: 'wing',
-    x: 412,
-    y: -6860,
-  },
-  {
-    tag: 'wing',
-    x: 68,
-    y: -6860,
   },
   {
     tag: 'fighter',
@@ -680,11 +605,6 @@ export default [
     y: -15092,
   },
   {
-    tag: 'wing',
-    x: 48,
-    y: -15004,
-  },
-  {
     tag: 'fighter',
     x: 420,
     y: -15626,
@@ -823,16 +743,6 @@ export default [
     tag: 'fighter',
     x: 388,
     y: -17186,
-  },
-  {
-    tag: 'wing',
-    x: 480,
-    y: -17720,
-  },
-  {
-    tag: 'wing',
-    x: 312,
-    y: -17716,
   },
   {
     tag: 'stareater',
@@ -984,14 +894,9 @@ export default [
     x: 380,
     y: -10816,
   },
-  {
-    tag: 'mothership',
-    x: 220,
-    y: -20992,
-  },
-  {
-    tag: 'Player',
-    x: 240,
-    y: 360,
-  },
+  // {
+  //   tag: 'mothership',
+  //   x: 220,
+  //   y: -20992,
+  // },
 ];

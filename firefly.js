@@ -12,7 +12,7 @@ export default function addFireFly(g, settings) {
     g.area(),
     g.animation({
       idle: {
-        sequence: [0, 2, 1, 3],
+        sequence: [0],
         delay: 0.05,
         repeat: true,
       },
@@ -28,6 +28,7 @@ export default function addFireFly(g, settings) {
 
       timers: {
         weapon: {
+          active: g.timer(0),
           cooldown: g.timer(0),
         },
       },
@@ -88,10 +89,12 @@ export default function addFireFly(g, settings) {
           state.set('end');
         }
 
-        if (!sprite.weapon.active) {
+        if (!sprite.weapon.active && timers.weapon.cooldown.expired()) {
           sprite.weapon.active = true;
-          timers.weapon.cooldown.set(5);
-          sprite.weapon.sprite = addFireflyPrimaryWeapon(g, { pos });
+          timers.weapon.active.set(7);
+          sprite.weapon.sprite = addFireflyPrimaryWeapon(g, {
+            parent: sprite,
+          });
         }
       }
 
@@ -101,13 +104,10 @@ export default function addFireFly(g, settings) {
       }
     }
 
-    if (sprite.weapon.sprite) {
-      sprite.weapon.sprite.pos = pos;
-    }
-
-    if (timers.weapon.cooldown.expired()) {
+    if (sprite.weapon.active && sprite.timers.weapon.active.expired()) {
+      sprite.weapon.sprite.destroy();
       sprite.weapon.active = false;
-      timers.weapon.cooldown.reset();
+      timers.weapon.cooldown.set(5);
     }
 
     if (pos.y > g.height) {
@@ -122,6 +122,8 @@ export default function addFireFly(g, settings) {
 
   sprite.onDestroy = () => {
     const { pos } = sprite;
+
+    sprite.weapon.sprite.destroy();
 
     if (pos.y > g.height) return;
 
@@ -144,50 +146,65 @@ export default function addFireFly(g, settings) {
 }
 
 function addFireflyPrimaryWeapon(g, settings) {
-  const { pos } = settings;
+  const { pos, parent } = settings;
 
   const sprite = g.add(
-    g.sprite('firefly-primary-weapon.png', 9, 720),
-    g.pos(pos),
+    g.sprite('firefly-primary-weapon.png', 9, 5),
     g.area(),
     g.animation({
-      idle: {
+      charging: {
+        sequence: [0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3],
+        delay: 0.1,
+        repeat: false,
+        onComplete: (sprite) => {
+          sprite.animation.play('firing');
+        },
+      },
+      firing: {
         sequence: [6, 9, 7, 8],
-        delay: 0.05,
+        delay: 0.1,
         repeat: true,
       },
     }),
+    g.follow(parent, { x: 3, y: 11 }),
     {
-      damage: 3,
+      damage: 0.5,
     },
     'fireflyPrimaryWeapon'
   );
 
   sprite.onAdd = () => {};
 
-  sprite.onUpdate = () => {};
+  sprite.onUpdate = () => {
+    const { height, animation } = sprite;
 
-  sprite.onCollide = (other) => {
-    if (other.hasTag('player')) {
-      other.receiveDamage(sprite.damage);
+    if (animation.name === 'firing' && height < g.height) {
+      sprite.height += 100;
     }
   };
 
-  sprite.onDestroy = () => {
-    const { pos, vel } = sprite;
+  sprite.onCollide = (other) => {
+    const { pos } = sprite;
 
-    // if (sprite.isOnCamera())
-    //   addSpark(g, {
-    //     pos: {
-    //       x: pos.x - 10,
-    //       y: pos.y - 10,
-    //     },
-    //     vel: {
-    //       x: vel.x * 0.25,
-    //       y: vel.y * 0.25,
-    //     },
-    //   });
+    if (other.hasTag('player')) {
+      other.receiveDamage(sprite.damage);
+
+      sprite.height = other.pos.y - pos.y;
+
+      addSpark(g, {
+        pos: {
+          x: pos.x - 17,
+          y: other.pos.y - 20,
+        },
+        vel: {
+          x: 0,
+          y: 100,
+        },
+      });
+    }
   };
+
+  sprite.onDestroy = () => {};
 
   return sprite;
 }

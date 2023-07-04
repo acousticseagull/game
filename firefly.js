@@ -89,7 +89,11 @@ export default function addFireFly(g, settings) {
           state.set('end');
         }
 
-        if (!sprite.weapon.active && timers.weapon.cooldown.expired()) {
+        if (
+          g.global.player.isActive() &&
+          !sprite.weapon.active &&
+          timers.weapon.cooldown.expired()
+        ) {
           sprite.weapon.active = true;
           timers.weapon.active.set(7);
           sprite.weapon.sprite = addFireflyPrimaryWeapon(g, {
@@ -113,6 +117,11 @@ export default function addFireFly(g, settings) {
     if (pos.y > g.height) {
       sprite.destroy();
     }
+  };
+
+  sprite.onCollide = (other) => {
+    sprite.receiveDamage(10);
+    other.receiveDamage(10);
   };
 
   sprite.onReceiveDamage = (amount) => {

@@ -30,6 +30,11 @@ export default function addCarrier(g, settings) {
     if (pos.y > -height) vel.y = 40;
   };
 
+  sprite.onCollide = (other) => {
+    sprite.receiveDamage(10);
+    other.receiveDamage(10);
+  };
+
   sprite.onReceiveDamage = (amount) => {
     sprite.hull.actual -= amount;
     if (sprite.hull.actual <= 0) sprite.destroy();

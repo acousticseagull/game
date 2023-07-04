@@ -99,6 +99,10 @@ g.scene('main', () => {
       dust.pos.y -= 720;
     }
 
+    if (gas.pos.y >= g.height) {
+      gas.pos.y -= 720;
+    }
+
     if (!g.global.player) return;
 
     g.drawTile('player-energy-meter.png', 20, g.height - 40, 74, 20, 0);

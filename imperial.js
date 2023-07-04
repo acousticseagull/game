@@ -168,15 +168,6 @@ function addImperialPrimaryWeapon(g, settings) {
 
   sprite.onCollide = (other) => {
     if (other.hasTag('player')) {
-      sprite.destroy();
-      other.receiveDamage(sprite.damage);
-    }
-  };
-
-  sprite.onDestroy = () => {
-    const { pos, vel } = sprite;
-
-    if (sprite.isOnCamera())
       addSpark(g, {
         pos: {
           x: pos.x - 10,
@@ -187,5 +178,11 @@ function addImperialPrimaryWeapon(g, settings) {
           y: vel.y * 0.25,
         },
       });
+
+      sprite.destroy();
+      other.receiveDamage(sprite.damage);
+    }
   };
+
+  sprite.onDestroy = () => {};
 }

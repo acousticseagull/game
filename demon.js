@@ -1,6 +1,7 @@
 import addExplosion from './explosion.js';
 
-export default function addDemon(g, pos, vel) {
+export default function addDemon(g, settings) {
+  const { pos, vel } = settings;
   const sprite = g.add(
     g.sprite('demon.png', 24, 13),
     g.pos(pos),

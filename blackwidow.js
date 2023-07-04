@@ -41,7 +41,6 @@ export default function addBlackwidow(g, settings) {
 
     if (pos.y > -height) {
       if (state.is('start')) {
-
         if (pos.y > 10) {
           vel.y = 20;
           vel.x = -40;
@@ -154,15 +153,6 @@ function addBlackwidowPrimaryWeapon(g, settings) {
 
   sprite.onCollide = (other) => {
     if (other.hasTag('player')) {
-      sprite.destroy();
-      other.receiveDamage(sprite.damage);
-    }
-  };
-
-  sprite.onDestroy = () => {
-    const { pos, vel } = sprite;
-
-    if (sprite.isOnCamera())
       addSpark(g, {
         pos: {
           x: pos.x - 10,
@@ -173,5 +163,9 @@ function addBlackwidowPrimaryWeapon(g, settings) {
           y: vel.y * 0.25,
         },
       });
+
+      sprite.destroy();
+      other.receiveDamage(sprite.damage);
+    }
   };
 }

@@ -51,7 +51,7 @@ export default function addPlayer(g) {
     vel.y = 0;
 
     if (g.gamepad.up(0) || g.keyDown('ArrowUp')) {
-      if (pos.y > 0) vel.y = -280;
+      if (pos.y > 0) vel.y = -250;
     }
 
     if (g.gamepad.down(0) || g.keyDown('ArrowDown')) {
@@ -59,11 +59,11 @@ export default function addPlayer(g) {
     }
 
     if (g.gamepad.left(0) || g.keyDown('ArrowLeft')) {
-      if (pos.x > 0) vel.x = -240;
+      if (pos.x > 0) vel.x = -150;
     }
 
     if (g.gamepad.right(0) || g.keyDown('ArrowRight')) {
-      if (pos.x < g.width - width) vel.x = 240;
+      if (pos.x < g.width - width) vel.x = 150;
     }
 
     animation.play('idle');
@@ -455,9 +455,9 @@ function addPlayerMissle(g, settings) {
   };
 
   sprite.onCollide = (other) => {
-    if (other.hasTag('enemy')) {
-      const { pos } = sprite;
+    const { pos } = sprite;
 
+    if (other.hasTag('enemy')) {
       sprite.destroy();
 
       addExplosion(g, {

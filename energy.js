@@ -5,14 +5,14 @@ export default function addEnergy(g, settings) {
 
   sprite.onAdd = () => {};
 
-  sprite.onUpdate = () => {
+  sprite.onUpdate = (dt) => {
     if (g.global.player && sprite.distanceTo(g.global.player) < 100) {
       const angle = sprite.angleTo(g.global.player);
       sprite.vel.x = Math.cos(angle) * 300;
       sprite.vel.y = Math.sin(angle) * 300;
     } else {
       sprite.vel.x = 0;
-      sprite.vel.y = 120;
+      sprite.vel.y = 80;
     }
   };
 

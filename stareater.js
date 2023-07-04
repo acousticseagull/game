@@ -171,6 +171,8 @@ function addStareaterPrimaryWeapon(g, settings) {
   };
 
   sprite.onCollide = (other) => {
+    const { pos, vel } = sprite;
+
     if (other.hasTag('player')) {
       addSpark(g, {
         pos: {

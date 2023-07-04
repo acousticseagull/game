@@ -357,8 +357,8 @@ export default function addPlayer(g) {
   };
 
   sprite.onReceiveDamage = (amount) => {
-    sprite.hull.actual -= amount;
-    if (sprite.hull.actual <= 0) sprite.destroy();
+    sprite.energy.actual -= amount;
+    if (sprite.energy.actual <= 0) sprite.destroy();
   };
 
   sprite.onDestroy = () => {
@@ -446,7 +446,7 @@ function addPlayerMissle(g, settings) {
       },
     }),
     {
-      damage: 10,
+      damage: 7,
     },
     'playerMissleWeapon'
   );
@@ -461,6 +461,8 @@ function addPlayerMissle(g, settings) {
 
     if (other.hasTag('enemy')) {
       sprite.destroy();
+
+      other.receiveDamage(sprite.damage);
 
       addExplosion(g, {
         pos: {

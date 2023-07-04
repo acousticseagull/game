@@ -105,6 +105,7 @@ g.scene('main', () => {
 
     if (!g.global.player) return;
 
+    g.drawTile('energy.png', 7, g.height - 30, 7, 7, 0);
     g.drawTile('player-energy-meter.png', 20, g.height - 40, 74, 20, 0);
 
     let x = 23;

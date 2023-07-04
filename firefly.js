@@ -2,10 +2,10 @@ import addSpark from './spark.js';
 import addExplosion from './explosion.js';
 import addEnergy from './energy.js';
 
-export default function addImperial(g, settings) {
+export default function addFireFly(g, settings) {
   const { pos } = settings;
   const sprite = g.add(
-    g.sprite('imperial.png', 17, 34),
+    g.sprite('firefly.png', 17, 34),
     g.pos(pos),
     g.vel({ y: 120 }),
     g.state('start'),
@@ -144,7 +144,7 @@ function addImperialPrimaryWeapon(g, settings) {
     g.area(8, 8, 14, 14),
     g.animation({
       idle: {
-        sequence: [0],
+        sequence: [1],
       },
     }),
     {

@@ -46,8 +46,7 @@ export default function addFighter(g, settings) {
       if (pos.x > g.width - width) vel.x = -20;
 
       if (pos.y > 100 && g.randomInt(1, 250) === 1) {
-        const player = g.getSpriteByTag('player');
-        if (player) addFighterPrimaryWeapon(g, { pos });
+        if (g.global.player.isActive()) addFighterPrimaryWeapon(g, { pos });
       }
 
       if (pos.y > g.height) {
@@ -96,7 +95,7 @@ function addFighterPrimaryWeapon(g, settings) {
   );
 
   sprite.onAdd = () => {
-    const player = g.getSpriteByTag('player');
+    const player = g.global.player;
     const angle = sprite.angleTo(player);
 
     sprite.vel = {

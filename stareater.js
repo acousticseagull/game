@@ -86,7 +86,7 @@ export default function addStareater(g, settings) {
 
       if (timers.weapon.cooldown.expired()) {
         if (timers.weapon.delay.expired()) {
-          if (g.global.player) {
+          if (g.global.player.isActive()) {
             addStareaterPrimaryWeapon(g, {
               pos: { x: pos.x - 10, y: pos.y + 15 },
             });
@@ -148,7 +148,7 @@ function addStareaterPrimaryWeapon(g, settings) {
     g.area(8, 8, 14, 14),
     g.animation({
       idle: {
-        sequence: [2],
+        sequence: [1],
       },
     }),
     {

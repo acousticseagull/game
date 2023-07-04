@@ -28,7 +28,6 @@ export default function addBlackwidow(g, settings) {
 
       counters: {
         weapon: 2,
-        hover: 3,
       },
     },
     'blackwidow',
@@ -42,13 +41,10 @@ export default function addBlackwidow(g, settings) {
 
     if (pos.y > -height) {
       if (state.is('start')) {
-        if (pos.y < 10) {
-          vel.y = 20;
-        }
 
         if (pos.y > 10) {
-          vel.y = 10;
-          vel.x = -5;
+          vel.y = 20;
+          vel.x = -40;
 
           pos.origin = { ...pos };
 
@@ -58,30 +54,20 @@ export default function addBlackwidow(g, settings) {
 
       if (state.is('hover')) {
         if (pos.x <= pos.origin.x - 40 && vel.x <= 0) {
-          vel.x = 5;
+          vel.x = 40;
         }
 
         if (pos.x >= pos.origin.x + 40 && vel.x >= 0) {
-          vel.x = -5;
-          counters.hover--;
+          vel.x = -40;
         }
 
-        if (pos.x < 0) vel.x = 5;
-        if (pos.x > g.width) vel.x = -5;
-
-        if (counters.hover === 0) {
-          state.set('end');
-        }
-      }
-
-      if (state.is('end')) {
-        vel.x = 0;
-        vel.y = 80;
+        if (pos.x < 0) vel.x = 40;
+        if (pos.x > g.width) vel.x = -40;
       }
 
       if (timers.weapon.cooldown.expired()) {
         if (timers.weapon.delay.expired()) {
-          if (g.global.player) {
+          if (g.global.player.isActive()) {
             addBlackwidowPrimaryWeapon(g, {
               pos: { x: pos.x - 10, y: pos.y + 15 },
               vel: { x: -5 },

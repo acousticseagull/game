@@ -133,7 +133,6 @@ g.scene('main', () => {
   };
 
   level.forEach(({ tag, x, y }) => {
-    console.log(tag);
     objects[tag](g, { pos: { x, y } });
   });
 });

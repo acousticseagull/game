@@ -10,7 +10,6 @@ export default function addExplosion(g, settings) {
       idle: {
         sequence: [6, 6, 6, 8, 8, 8, 9, 9, 10, 10],
         delay: 0.07,
-        repeat: false,
         onComplete(sprite) {
           sprite.destroy();
         },

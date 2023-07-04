@@ -7,6 +7,7 @@ import addEnergy from './energy.js';
 import addCarrier from './carrier.js';
 import addBlackwidow from './blackwidow.js';
 import addStareater from './stareater.js';
+import addFirefly from './firefly.js';
 
 const g = Game({
   width: window.innerWidth,
@@ -35,6 +36,7 @@ g.loadImage(baseURL + 'star-eater.png');
 g.loadImage(baseURL + 'demon.png');
 g.loadImage(baseURL + 'demon-mine.png');
 g.loadImage(baseURL + 'enemy-primary-weapon.png');
+g.loadImage(baseURL + 'firefly-primary-weapon.png');
 
 g.scene('main', () => {
   addPlayer(g);
@@ -61,17 +63,17 @@ g.scene('main', () => {
     }
   });
 
-  addFighter(g, { pos: { x: 20, y: -26 } });
-  addImperial(g, { pos: { x: 60, y: -66 } });
+  addFirefly(g, { pos: { x: 20, y: -26 } });
+  // addImperial(g, { pos: { x: 60, y: -66 } });
 
-  addBlackwidow(g, { pos: { x: 500, y: -200 } });
-  addBlackwidow(g, { pos: { x: 320, y: -250 } });
-  addBlackwidow(g, { pos: { x: 240, y: -200 } });
-  addStareater(g, { pos: { x: 220, y: -300 } });
-  addStareater(g, { pos: { x: 420, y: -500 } });
-  addStareater(g, { pos: { x: 120, y: -300 } });
+  // addBlackwidow(g, { pos: { x: 500, y: -200 } });
+  // addBlackwidow(g, { pos: { x: 320, y: -250 } });
+  // addBlackwidow(g, { pos: { x: 240, y: -200 } });
+  // addStareater(g, { pos: { x: 220, y: -300 } });
+  // addStareater(g, { pos: { x: 420, y: -500 } });
+  // addStareater(g, { pos: { x: 120, y: -300 } });
 
-  addDemon(g, { x: g.width + 100, y: 200 });
+  // addDemon(g, { x: g.width + 100, y: 200 });
 });
 
 g.start('main');

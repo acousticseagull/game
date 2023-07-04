@@ -5,33 +5,43 @@ import addEnergy from './energy.js';
 export default function addFireFly(g, settings) {
   const { pos } = settings;
   const sprite = g.add(
-    g.sprite('firefly.png', 17, 34),
+    g.sprite('firefly.png', 15, 15),
     g.pos(pos),
     g.vel({ y: 120 }),
     g.state('start'),
     g.area(),
+    g.animation({
+      idle: {
+        sequence: [0, 2, 1, 3],
+        delay: 0.05,
+        repeat: true,
+      },
+    }),
     {
       z: 2,
 
-      level: 5,
+      level: 3,
 
       hull: {
-        actual: 40,
+        actual: 20,
       },
 
       timers: {
         weapon: {
-          cooldown: g.timer(2),
-          delay: g.timer(0.5),
+          cooldown: g.timer(0),
         },
       },
 
+      weapon: {
+        sprite: null,
+        active: false,
+      },
+
       counters: {
-        weapon: 3,
-        hover: 1,
+        hover: 5,
       },
     },
-    'imperial',
+    'firefly',
     'enemy'
   );
 
@@ -77,26 +87,27 @@ export default function addFireFly(g, settings) {
         if (counters.hover === 0) {
           state.set('end');
         }
+
+        if (!sprite.weapon.active) {
+          sprite.weapon.active = true;
+          timers.weapon.cooldown.set(5);
+          sprite.weapon.sprite = addFireflyPrimaryWeapon(g, { pos });
+        }
       }
 
       if (state.is('end')) {
         vel.x = 0;
         vel.y = 80;
       }
+    }
 
-      if (timers.weapon.cooldown.expired()) {
-        if (timers.weapon.delay.expired()) {
-          if (g.global.player.isActive()) addImperialPrimaryWeapon(g, { pos });
+    if (sprite.weapon.sprite) {
+      sprite.weapon.sprite.pos = pos;
+    }
 
-          counters.weapon--;
-          timers.weapon.delay.reset();
-        }
-
-        if (counters.weapon === 0) {
-          counters.weapon = 3;
-          timers.weapon.cooldown.reset();
-        }
-      }
+    if (timers.weapon.cooldown.expired()) {
+      sprite.weapon.active = false;
+      timers.weapon.cooldown.reset();
     }
 
     if (pos.y > g.height) {
@@ -132,43 +143,32 @@ export default function addFireFly(g, settings) {
   };
 }
 
-function addImperialPrimaryWeapon(g, settings) {
+function addFireflyPrimaryWeapon(g, settings) {
   const { pos } = settings;
 
   const sprite = g.add(
-    g.sprite('enemy-primary-weapon.png', 22, 22),
-    g.pos({
-      x: pos.x - 3,
-      y: pos.y + 10,
-    }),
-    g.area(8, 8, 14, 14),
+    g.sprite('firefly-primary-weapon.png', 9, 720),
+    g.pos(pos),
+    g.area(),
     g.animation({
       idle: {
-        sequence: [1],
+        sequence: [6, 9, 7, 8],
+        delay: 0.05,
+        repeat: true,
       },
     }),
     {
       damage: 3,
     },
-    'imperialPrimaryWeapon'
+    'fireflyPrimaryWeapon'
   );
 
-  sprite.onAdd = () => {
-    const angle = sprite.angleTo(g.global.player);
+  sprite.onAdd = () => {};
 
-    sprite.vel = {
-      x: Math.cos(angle) * 200,
-      y: Math.sin(angle) * 200,
-    };
-  };
-
-  sprite.onUpdate = () => {
-    if (!sprite.isOnCamera()) sprite.destroy();
-  };
+  sprite.onUpdate = () => {};
 
   sprite.onCollide = (other) => {
     if (other.hasTag('player')) {
-      sprite.destroy();
       other.receiveDamage(sprite.damage);
     }
   };
@@ -176,16 +176,18 @@ function addImperialPrimaryWeapon(g, settings) {
   sprite.onDestroy = () => {
     const { pos, vel } = sprite;
 
-    if (sprite.isOnCamera())
-      addSpark(g, {
-        pos: {
-          x: pos.x - 10,
-          y: pos.y - 10,
-        },
-        vel: {
-          x: vel.x * 0.25,
-          y: vel.y * 0.25,
-        },
-      });
+    // if (sprite.isOnCamera())
+    //   addSpark(g, {
+    //     pos: {
+    //       x: pos.x - 10,
+    //       y: pos.y - 10,
+    //     },
+    //     vel: {
+    //       x: vel.x * 0.25,
+    //       y: vel.y * 0.25,
+    //     },
+    //   });
   };
+
+  return sprite;
 }

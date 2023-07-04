@@ -264,7 +264,7 @@ export default function addPlayer(g) {
             sequence: [2],
             damage: 2,
           });
-        } else if (energy.actual === 10) {
+        } else if (energy.actual >= 10) {
           addPlayerPrimaryWeapon(g, {
             pos: { x: pos.x + 4, y: pos.y - 10 },
             vel: { x: -110, y: -100, max: 800 },
@@ -331,7 +331,7 @@ export default function addPlayer(g) {
       }
 
       // missle
-      if (energy.actual === 10 && timers.missle.expired()) {
+      if (energy.actual >= 10 && timers.missle.expired()) {
         timers.missle.reset();
 
         addPlayerMissle(g, {

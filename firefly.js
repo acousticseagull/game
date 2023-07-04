@@ -123,7 +123,7 @@ export default function addFireFly(g, settings) {
   sprite.onDestroy = () => {
     const { pos } = sprite;
 
-    sprite.weapon.sprite.destroy();
+    sprite.weapon.sprite?.destroy();
 
     if (pos.y > g.height) return;
 

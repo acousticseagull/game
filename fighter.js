@@ -1,5 +1,6 @@
 import addSpark from './spark.js';
 import addExplosion from './explosion.js';
+import addEnergy from './energy.js';
 
 export default function addFighter(g, settings) {
   const { pos } = settings;
@@ -14,6 +15,8 @@ export default function addFighter(g, settings) {
       hull: {
         actual: 10,
       },
+
+      level: 1,
 
       turn: g.randomInt(1, 10) > 5 ? true : false,
     },
@@ -63,13 +66,23 @@ export default function addFighter(g, settings) {
   sprite.onDestroy = () => {
     const { pos } = sprite;
 
-    if (pos.y < g.height)
+    if (sprite.isOnCamera()) {
       addExplosion(g, {
         pos: {
           x: pos.x - 10,
           y: pos.y - 10,
         },
       });
+
+      for (let i = 0; i < sprite.level; i++) {
+        addEnergy(g, {
+          pos: {
+            x: pos.x - 10 + g.randomInt(-20, 20),
+            y: pos.y + g.randomInt(-20, 20),
+          },
+        });
+      }
+    }
   };
 }
 
@@ -128,17 +141,5 @@ function addFighterPrimaryWeapon(g, settings) {
     }
   };
 
-  sprite.onDestroy = () => {
-    const { pos } = sprite;
-
-    if (sprite.isOnCamera())
-      for (let i = 0; i < sprite.level; i++) {
-        addEnergy(g, {
-          pos: {
-            x: pos.x - 10 + g.randomInt(-20, 20),
-            y: pos.y + g.randomInt(-20, 20),
-          },
-        });
-      }
-  };
+  sprite.onDestroy = () => {};
 }

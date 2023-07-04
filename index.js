@@ -88,8 +88,8 @@ g.scene('main', () => {
     g.drawTile('dust.png', dust.pos.x, dust.pos.y - 720, 480, 720, 0);
     g.drawTile('dust.png', dust.pos.x, dust.pos.y, 480, 720, 0);
 
-    g.drawTile('gas.png', gas.pos.x, gas.pos.y - 720, 480, 720, 0);
-    g.drawTile('gas.png', gas.pos.x, gas.pos.y, 480, 720, 0);
+    g.drawTile('gas.png', gas.pos.x, gas.pos.y - 1920, 480, 1920, 0);
+    g.drawTile('gas.png', gas.pos.x, gas.pos.y, 480, 1920, 0);
 
     if (stars.pos.y >= g.height) {
       stars.pos.y -= 720;
@@ -100,7 +100,7 @@ g.scene('main', () => {
     }
 
     if (gas.pos.y >= g.height) {
-      gas.pos.y -= 720;
+      gas.pos.y -= 1920;
     }
 
     if (!g.global.player) return;

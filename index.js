@@ -20,6 +20,9 @@ const g = Game({
 const baseURL = '//stephenpruitt.com/rayborn/assets/';
 
 g.loadImage(baseURL + 'player.png');
+g.loadImage(baseURL + 'stars.png');
+g.loadImage(baseURL + 'dust.png');
+g.loadImage(baseURL + 'gas.png');
 g.loadImage(baseURL + 'player-primary-weapon.png');
 g.loadImage(baseURL + 'player-secondary-weapon.png');
 g.loadImage(baseURL + 'player-missle.png');
@@ -40,11 +43,62 @@ g.loadImage(baseURL + 'enemy-primary-weapon.png');
 g.loadImage(baseURL + 'firefly-primary-weapon.png');
 
 g.scene('main', () => {
-  addPlayer(g);
+  g.global.player = addPlayer(g);
 
-  g.global.player = g.getSpriteByTag('player');
+  const stars = {
+    pos: {
+      x: 0,
+      y: 0,
+    },
+    vel: {
+      y: 30,
+    },
+  };
+
+  const dust = {
+    pos: {
+      x: 0,
+      y: 0,
+    },
+    vel: {
+      y: 60 * 3,
+    },
+  };
+
+  const gas = {
+    pos: {
+      x: 0,
+      y: 0,
+    },
+    vel: {
+      y: 60,
+    },
+  };
+
+  g.on('update', (dt) => {
+    stars.pos.y += stars.vel.y * dt;
+    dust.pos.y += dust.vel.y * dt;
+    gas.pos.y += gas.vel.y * dt;
+  });
 
   g.on('draw', () => {
+    g.drawTile('stars.png', stars.pos.x, stars.pos.y - 720, 480, 720, 0);
+    g.drawTile('stars.png', stars.pos.x, stars.pos.y, 480, 720, 0);
+
+    g.drawTile('dust.png', dust.pos.x, dust.pos.y - 720, 480, 720, 0);
+    g.drawTile('dust.png', dust.pos.x, dust.pos.y, 480, 720, 0);
+
+    g.drawTile('gas.png', gas.pos.x, gas.pos.y - 720, 480, 720, 0);
+    g.drawTile('gas.png', gas.pos.x, gas.pos.y, 480, 720, 0);
+
+    if (stars.pos.y >= g.height) {
+      stars.pos.y -= 720;
+    }
+
+    if (dust.pos.y >= g.height) {
+      dust.pos.y -= 720;
+    }
+
     if (!g.global.player) return;
 
     g.drawTile('player-energy-meter.png', 20, g.height - 40, 74, 20, 0);

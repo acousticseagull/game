@@ -98,8 +98,10 @@ export default function addBlackwidow(g, settings) {
   };
 
   sprite.onCollide = (other) => {
-    sprite.receiveDamage(10);
-    other.receiveDamage(10);
+    if (other.hasTag('player')) {
+      sprite.receiveDamage(10);
+      other.receiveDamage(10);
+    }
   };
 
   sprite.onReceiveDamage = (amount) => {

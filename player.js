@@ -371,6 +371,8 @@ export default function addPlayer(g) {
       },
     });
   };
+
+  return sprite;
 }
 
 function addPlayerPrimaryWeapon(g, settings) {

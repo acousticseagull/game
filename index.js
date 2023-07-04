@@ -19,28 +19,28 @@ const g = Game({
 
 const baseURL = '//stephenpruitt.com/rayborn/assets/';
 
-g.loadImage(baseURL + 'player.png');
-g.loadImage(baseURL + 'stars.png');
-g.loadImage(baseURL + 'dust.png');
-g.loadImage(baseURL + 'gas.png');
-g.loadImage(baseURL + 'player-primary-weapon.png');
-g.loadImage(baseURL + 'player-secondary-weapon.png');
-g.loadImage(baseURL + 'player-missle.png');
-g.loadImage(baseURL + 'player-beam-weapon.png');
-g.loadImage(baseURL + 'player-energy-meter.png');
-g.loadImage(baseURL + 'health.png');
-g.loadImage(baseURL + 'explosion.png');
-g.loadImage(baseURL + 'energy.png');
-g.loadImage(baseURL + 'fighter.png');
-g.loadImage(baseURL + 'imperial.png');
-g.loadImage(baseURL + 'firefly.png');
-g.loadImage(baseURL + 'blackwidow.png');
-g.loadImage(baseURL + 'carrier.png');
-g.loadImage(baseURL + 'star-eater.png');
-g.loadImage(baseURL + 'demon.png');
-g.loadImage(baseURL + 'demon-mine.png');
-g.loadImage(baseURL + 'enemy-primary-weapon.png');
-g.loadImage(baseURL + 'firefly-primary-weapon.png');
+g.load.image(baseURL + 'player.png');
+g.load.image(baseURL + 'stars.png');
+g.load.image(baseURL + 'dust.png');
+g.load.image(baseURL + 'gas.png');
+g.load.image(baseURL + 'player-primary-weapon.png');
+g.load.image(baseURL + 'player-secondary-weapon.png');
+g.load.image(baseURL + 'player-missle.png');
+g.load.image(baseURL + 'player-beam-weapon.png');
+g.load.image(baseURL + 'player-energy-meter.png');
+g.load.image(baseURL + 'health.png');
+g.load.image(baseURL + 'explosion.png');
+g.load.image(baseURL + 'energy.png');
+g.load.image(baseURL + 'fighter.png');
+g.load.image(baseURL + 'imperial.png');
+g.load.image(baseURL + 'firefly.png');
+g.load.image(baseURL + 'blackwidow.png');
+g.load.image(baseURL + 'carrier.png');
+g.load.image(baseURL + 'star-eater.png');
+g.load.image(baseURL + 'demon.png');
+g.load.image(baseURL + 'demon-mine.png');
+g.load.image(baseURL + 'enemy-primary-weapon.png');
+g.load.image(baseURL + 'firefly-primary-weapon.png');
 
 g.scene('main', () => {
   g.global.player = addPlayer(g);

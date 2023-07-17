@@ -1,10 +1,11 @@
 import addSpark from './spark.js';
 import addExplosion from './explosion.js';
 
-export default function addPlayer(g) {
+export default function addPlayer(g, settings) {
+  const { pos, gamepad = 0 } = settings;
   const sprite = g.add(
     g.sprite('player.png', 21, 26),
-    g.pos({ x: g.width / 2, y: g.height - 100 }),
+    g.pos(pos),
     g.vel({ max: 500 }),
     g.area(5, 10, 10, 15),
     g.animation({
@@ -50,20 +51,20 @@ export default function addPlayer(g) {
     vel.x = 0;
     vel.y = 0;
 
-    if (g.gamepad.up(0) || g.keyDown('ArrowUp')) {
+    if (g.gamepad.up(gamepad) || g.keyDown('ArrowUp')) {
       if (pos.y > 0) vel.y = -250;
     }
 
-    if (g.gamepad.down(0) || g.keyDown('ArrowDown')) {
+    if (g.gamepad.down(gamepad) || g.keyDown('ArrowDown')) {
       if (pos.y < g.height - height) vel.y = 200;
     }
 
-    if (g.gamepad.left(0) || g.keyDown('ArrowLeft')) {
-      if (pos.x > 0) vel.x = -150;
+    if (g.gamepad.left(gamepad) || g.keyDown('ArrowLeft')) {
+      if (pos.x > 0) vel.x = -250;
     }
 
-    if (g.gamepad.right(0) || g.keyDown('ArrowRight')) {
-      if (pos.x < g.width - width) vel.x = 150;
+    if (g.gamepad.right(gamepad) || g.keyDown('ArrowRight')) {
+      if (pos.x < g.width - width) vel.x = 250;
     }
 
     animation.play('idle');
@@ -71,7 +72,7 @@ export default function addPlayer(g) {
     if (vel.x < 0) animation.play('left');
     if (vel.x > 0) animation.play('right');
 
-    if (g.gamepad.buttonDown(0, 0) || g.keyDown('x')) {
+    if (g.gamepad.buttonDown(gamepad, 0) || g.keyDown('x')) {
       if (timers.primary.expired()) {
         timers.primary.reset();
 

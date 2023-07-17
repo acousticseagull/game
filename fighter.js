@@ -30,23 +30,23 @@ export default function addFighter(g, settings) {
     const { pos, vel, width, turn } = sprite;
 
     if (pos.y > 0) {
-      vel.y = 120;
+      vel.y = 160;
 
       if (turn && pos.y > g.randomInt(80, 140)) {
         if (pos.origin.x < 160) {
-          vel.x = 60;
+          vel.x = 80;
         }
 
         if (pos.origin.x > 160) {
-          vel.x = -60;
+          vel.x = -80;
         }
       }
 
       if (pos.y > g.randomInt(260, 280)) vel.x = 0;
 
-      if (pos.x < 0) vel.x = 20;
+      if (pos.x < 0) vel.x = 60;
 
-      if (pos.x > g.width - width) vel.x = -20;
+      if (pos.x > g.width - width) vel.x = -60;
 
       if (pos.y > 100 && g.randomInt(1, 250) === 1) {
         if (g.global.player.isActive()) addFighterPrimaryWeapon(g, { pos });
@@ -119,8 +119,8 @@ function addFighterPrimaryWeapon(g, settings) {
     const angle = sprite.angleTo(player);
 
     sprite.vel = {
-      x: Math.cos(angle) * 160,
-      y: Math.sin(angle) * 160,
+      x: Math.cos(angle) * 250,
+      y: Math.sin(angle) * 250,
     };
   };
 

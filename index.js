@@ -43,7 +43,14 @@ g.load.image(baseURL + 'enemy-primary-weapon.png');
 g.load.image(baseURL + 'firefly-primary-weapon.png');
 
 g.scene('main', () => {
-  g.global.player = addPlayer(g);
+  g.global.player = addPlayer(g, {
+    pos: { x: 100, y: g.height - 100 },
+    gamepad: 0,
+  });
+  addPlayer(g, {
+    pos: { x: g.width - 100, y: g.height - 100 },
+    gamepad: 1,
+  });
 
   const stars = {
     pos: {
@@ -51,7 +58,7 @@ g.scene('main', () => {
       y: 0,
     },
     vel: {
-      y: 30,
+      y: 60,
     },
   };
 
@@ -61,7 +68,7 @@ g.scene('main', () => {
       y: 0,
     },
     vel: {
-      y: 60 * 3,
+      y: 120 * 4,
     },
   };
 
@@ -71,7 +78,7 @@ g.scene('main', () => {
       y: 0,
     },
     vel: {
-      y: 60,
+      y: 120,
     },
   };
 

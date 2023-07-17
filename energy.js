@@ -6,14 +6,18 @@ export default function addEnergy(g, settings) {
   sprite.onAdd = () => {};
 
   sprite.onUpdate = (dt) => {
-    if (g.global.player.isActive() && sprite.distanceTo(g.global.player) < 100) {
-      const angle = sprite.angleTo(g.global.player);
-      sprite.vel.x = Math.cos(angle) * 300;
-      sprite.vel.y = Math.sin(angle) * 300;
-    } else {
-      sprite.vel.x = 0;
-      sprite.vel.y = 80;
-    }
+    const players = g.getSpritesByTag('player');
+
+    players.forEach((player) => {
+      if (player.isActive() && sprite.distanceTo(player) < 50) {
+        const angle = sprite.angleTo(player);
+        sprite.vel.x = Math.cos(angle) * 360;
+        sprite.vel.y = Math.sin(angle) * 360;
+      } else {
+        sprite.vel.x = 0;
+        sprite.vel.y = 120;
+      }
+    });
   };
 
   sprite.onCollide = (other) => {
